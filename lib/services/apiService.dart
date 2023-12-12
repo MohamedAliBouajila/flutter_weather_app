@@ -22,7 +22,19 @@ class ApiService {
       );
       return Weather.fromJson(weatherData);
     } catch (e) {
-      return Weather();
+      return Weather(
+        weatherIcon: '',
+        temperature: 0,
+        windSpeed: 0,
+        humidity: 0,
+        cloud: 0,
+        pressure: 0,
+        visibility: 0,
+        currentDate: '',
+        hourlyWeatherForecast: [],
+        dailyWeatherForecast: [],
+        currentWeatherCondition: '',
+      );
     }
   }
 

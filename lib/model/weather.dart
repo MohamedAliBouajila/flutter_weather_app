@@ -4,8 +4,8 @@ class Weather {
   String weatherIcon;
   double temperature;
   double windSpeed;
-  double humidity;
-  double cloud;
+  int humidity;
+  int cloud;
   double pressure;
   double visibility;
   String currentDate;
@@ -14,17 +14,17 @@ class Weather {
   String currentWeatherCondition;
 
   Weather({
-    this.weatherIcon = "",
-    this.temperature = 0.0,
-    this.windSpeed = 0.0,
-    this.humidity= 0.0,
-    this.cloud = 0.0,
-    this.pressure = 0.0,
-    this.visibility = 0.0,
-    this.currentDate = "",
-    this.hourlyWeatherForecast = const [],
-    this.dailyWeatherForecast = const  [],
-    this.currentWeatherCondition = "",
+    required this.weatherIcon,
+    required this.temperature,
+    required this.windSpeed,
+    required this.humidity,
+    required this.cloud,
+    required this.pressure,
+    required this.visibility,
+    required this.currentDate,
+    required this.hourlyWeatherForecast,
+    required this.dailyWeatherForecast,
+    required this.currentWeatherCondition,
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) {
@@ -33,16 +33,16 @@ class Weather {
 
     return Weather(
       weatherIcon: weatherIconPath,
-      temperature: json["current"]["temp_c"] ?? 0.0,
-      windSpeed: json["current"]["wind_kph"] ?? 0.0,
-      humidity: json["current"]["humidity"] ?? 0.0,
-      cloud: json["current"]["cloud"] ?? 0.0,
-      pressure: json["current"]["pressure_mb"] ?? 0.0,
-      visibility: json["current"]["vis_km"] ?? 0.0,
+      temperature: json["current"]["temp_c"],
+      windSpeed: json["current"]["wind_kph"],
+      humidity: json["current"]["humidity"],
+      cloud: json["current"]["cloud"],
+      pressure: json["current"]["pressure_mb"],
+      visibility: json["current"]["vis_km"],
       currentDate: Helpers.getDate(json["location"]["localtime"]),
-      hourlyWeatherForecast: json["hourlyWeatherForecast"] ?? [],
-      dailyWeatherForecast: json["dailyWeatherForecast"] ?? [],
-      currentWeatherCondition: json["current"]["condition"]["text"] ?? '',
+      hourlyWeatherForecast: json["forecast"]["forecastday"][0]["hour"],
+      dailyWeatherForecast: json["forecast"]["forecastday"],
+      currentWeatherCondition: json["current"]["condition"]["text"],
     );
   }
 }
