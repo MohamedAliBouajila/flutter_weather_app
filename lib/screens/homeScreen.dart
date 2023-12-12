@@ -4,6 +4,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:weather_app/model/weather.dart';
 import 'package:weather_app/services/apiService.dart';
 import 'package:weather_app/utils/constants.dart';
+import 'package:weather_app/widgets/weatherItem.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
    
     if (weather == null) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
         ),
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         width: size.width,
         height: size.height,
-        padding: EdgeInsets.only(top: 50,left: 10,right: 10),
+        padding:const EdgeInsets.only(top: 50,left: 10,right: 10),
         color: _constants.primaryColor.withOpacity(.3),
         child:Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,7 +75,6 @@ class _HomePageState extends State<HomePage> {
                 ]
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
@@ -160,8 +160,86 @@ class _HomePageState extends State<HomePage> {
                        ),
 
                     ],
-                  )
-                ]),
+                  ),
+                  SizedBox(
+                    height: 160,
+                    child: Image.asset(
+                      'assets/images/sunny.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        '${weather?.temperature.toString() ?? 0}',
+                        style: TextStyle(
+                          fontSize: 80,
+                          fontWeight: FontWeight.bold,
+                          foreground: Paint()..shader = _constants.shader
+                        ),
+                      ),
+                      ),
+                      Text(
+                          'o',
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          foreground: Paint()..shader = _constants.shader
+                          ),
+                        ),
+                      
+                    ],
+                  ),
+                  Text(weather?.currentWeatherCondition ?? " ",style: const TextStyle(
+                    color:Colors.white70,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                  ),),
+                   Text(
+                    '${weather?.currentDate ?? " "}',
+                    style: TextStyle(
+                      color: Colors.white70,
+                     fontSize: 18,
+                      fontWeight: FontWeight.bold
+                    ),
+                   ),
+                 const Divider(
+                    color: Colors.white38,
+                    thickness: 2,
+                  ),
+
+Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        WeatherItem(
+                    iconUrl: 'assets/images/sunny.png',
+                    unit: 'km/h',
+                    value: '${weather?.windSpeed.toString() ?? 0}',
+                  ), 
+                  WeatherItem(
+                    iconUrl: 'assets/images/sunny.png',
+                    unit: '%',
+                    value: '${weather?.humidity.toString() ?? 0}',
+                  ), 
+                  WeatherItem(
+                    iconUrl: 'assets/images/sunny.png',
+                    unit: 'Okta',
+                    value: '${weather?.cloud.toString() ?? 0}',
+                  ), 
+                  WeatherItem(
+                    iconUrl: 'assets/images/sunny.png',
+                    unit: 'mb',
+                    value: '${weather?.cloud.toString() ?? 0}',
+                  ),
+                      ],
+                    ),
+)
+                   ]), 
             ),
         ]),
       ),
