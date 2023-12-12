@@ -1,6 +1,8 @@
+import 'package:weather_app/utils/countries.dart';
 import 'package:weather_app/utils/helpers.dart';
 
 class Weather {
+  String locationName;
   String weatherIcon;
   double temperature;
   double windSpeed;
@@ -14,6 +16,7 @@ class Weather {
   String currentWeatherCondition;
 
   Weather({
+    required this.locationName,
     required this.weatherIcon,
     required this.temperature,
     required this.windSpeed,
@@ -30,8 +33,11 @@ class Weather {
   factory Weather.fromJson(Map<String, dynamic> json) {
 
     String weatherIconPath = '${(json["current"]["condition"]["text"])?.toString().replaceAll(' ', '').toLowerCase() ?? ''}.png';
+    String countryShortenedName = Helpers.getShortNameByName(countries,json["location"]["country"].toString());
+    String locationName = '$countryShortenedName / ${json["location"]["region"]}';
 
     return Weather(
+      locationName: locationName,
       weatherIcon: weatherIconPath,
       temperature: json["current"]["temp_c"],
       windSpeed: json["current"]["wind_kph"],

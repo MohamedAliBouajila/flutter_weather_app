@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   Weather? weather;
 
   Future<void> getWeatherData(String location) async {
-    var data = await apiService.getWeatherData(location.toLowerCase());
+    var data = await apiService.getWeatherData(location.toLowerCase().trim());
     setState(() {
       weather = data;
     });
@@ -85,24 +85,39 @@ class _HomePageState extends State<HomePage> {
                         showModalBottomSheet(context: context, builder: (context)=>SingleChildScrollView(
                          controller: ModalScrollController.of(context),
                          child: Container(
-                          height: size.height * .5, 
-                          padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                          height: size.height * .7, 
+                          padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                           child: Column( 
                             children: [
                               SizedBox(
-                                width: 70,
+                                width: 80,
                                 child: Divider(
                                           color: _constants.primaryColor,
                                           thickness: 3,
                                       ),
                                       ),
-                              const SizedBox(height: 20,),
+                              const SizedBox(height: 10,),
                               TextField(
                                 controller: _citySearchController,
                                 onChanged: (searchValue){
                                   getWeatherData(searchValue);
                                 },
-                                decoration: InputDecoration(
+                                autofocus:true,
+                                  decoration: InputDecoration(
+                                                    prefixIcon: Icon(
+                                                      Icons.search,
+                                                      color: _constants
+                                                          .primaryColor,
+                                                    ),
+                                                    suffixIcon: GestureDetector(
+                                                      onTap: () =>
+                                                          _citySearchController.clear(),
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        color: _constants
+                                                            .primaryColor,
+                                                      ),
+                                                    ),
                                   hintText: 'Search for a city',
                                   hintStyle: TextStyle(
                                     color: _constants.primaryColor,
@@ -136,11 +151,14 @@ class _HomePageState extends State<HomePage> {
                           ),
                          ),
                         ));
-                      }, icon: Icon(Icons.location_pin,color: Colors.white,), label: Text(location,style: TextStyle(
+                      }, icon: Icon(Icons.location_pin,color: Colors.white,), label: 
+                     Text(weather?.locationName ?? "No Location",style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold
-                      ),))
+                      ),),
+                       ),
+
                     ],
                   )
                 ]),

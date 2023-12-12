@@ -23,6 +23,7 @@ class ApiService {
       return Weather.fromJson(weatherData);
     } catch (e) {
       return Weather(
+        locationName: '',
         weatherIcon: '',
         temperature: 0,
         windSpeed: 0,
