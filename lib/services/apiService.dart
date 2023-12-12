@@ -13,7 +13,7 @@ class ApiService {
   }
   
   Future<Weather> getWeatherData(String countryName) async {
-    String requestURL = weatherSearchAPI + "&q=$countryName";
+    String requestURL = "$weatherSearchAPI&q=$countryName";
     try {
       var response = await http.get(Uri.parse(requestURL));
 

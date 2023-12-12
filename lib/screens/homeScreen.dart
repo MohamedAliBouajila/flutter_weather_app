@@ -151,8 +151,8 @@ class _HomePageState extends State<HomePage> {
                           ),
                          ),
                         ));
-                      }, icon: Icon(Icons.location_pin,color: Colors.white,), label: 
-                     Text(weather?.locationName ?? "No Location",style: TextStyle(
+                      }, icon: const Icon(Icons.location_pin,color: Colors.white,), label: 
+                     Text(weather?.locationName ?? "No Location",style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold
@@ -199,8 +199,8 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.bold
                   ),),
                    Text(
-                    '${weather?.currentDate ?? " "}',
-                    style: TextStyle(
+                    weather?.currentDate ?? " ",
+                    style: const TextStyle(
                       color: Colors.white70,
                      fontSize: 18,
                       fontWeight: FontWeight.bold
@@ -250,7 +250,7 @@ Container(
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Today',style: TextStyle(
+                      const Text('Today',style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold
                       ),),
@@ -276,6 +276,7 @@ Container(
                   //     itemBuilder: ,
                   //   ),
                   // )
+                
                   
                 ]
                 ),
