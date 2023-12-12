@@ -7,6 +7,10 @@ class Helpers {
     return newDate;
   }
 
+  static String getWeatherIconPath(String weatherCondition){
+    return '${weatherCondition.replaceAll(' ', '').toLowerCase()}.png';
+  }
+
   static String getShortNameByName(List<Map<String,String>> countries, String nameOfCountry) {
     final country = countries.firstWhere(
       (country) => country["name"]?.toLowerCase() == nameOfCountry.toLowerCase(),
