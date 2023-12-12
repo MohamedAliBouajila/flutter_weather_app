@@ -210,29 +210,28 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white38,
                     thickness: 2,
                   ),
-
 Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
   child: Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         WeatherItem(
-                    iconUrl: 'assets/images/sunny.png',
+                    icon: 'wind.png',
                     unit: 'km/h',
                     value: '${weather?.windSpeed.toString() ?? 0}',
                   ), 
                   WeatherItem(
-                    iconUrl: 'assets/images/sunny.png',
+                    icon: 'humidity.png',
                     unit: '%',
                     value: '${weather?.humidity.toString() ?? 0}',
                   ), 
                   WeatherItem(
-                    iconUrl: 'assets/images/sunny.png',
+                    icon: 'cloud.png',
                     unit: 'Okta',
                     value: '${weather?.cloud.toString() ?? 0}',
                   ), 
                   WeatherItem(
-                    iconUrl: 'assets/images/sunny.png',
+                    icon: 'pressure.png',
                     unit: 'mb',
                     value: '${weather?.cloud.toString() ?? 0}',
                   ),
@@ -241,8 +240,49 @@ Container(
 )
                    ]), 
             ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+              height: size.height * .2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Today',style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                      ),),
+                      GestureDetector(
+                        onTap: (){
+                           },
+                        child: Text('Forecasts',style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: _constants.primaryColor
+                        ),),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  // SizedBox(
+                  //   height: 110,
+                  //   child: ListView.builder(
+                  //     scrollDirection: Axis.horizontal,
+                  //     physics: const BouncingScrollPhysics(),
+                  //     itemBuilder: ,
+                  //   ),
+                  // )
+                  
+                ]
+                ),
+            )
         ]),
       ),
+
     );
   }
 }

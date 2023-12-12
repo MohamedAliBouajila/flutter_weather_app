@@ -4,11 +4,11 @@ import 'package:weather_app/utils/constants.dart';
 class WeatherItem extends StatelessWidget {
   final String value;
   final String unit;
-  final String iconUrl;
+  final String icon;
 
   const WeatherItem({
     Key? key,
-    required this.iconUrl,
+    required this.icon,
     required this.unit,
     required this.value,
   }) : super(key: key);
@@ -27,7 +27,7 @@ class WeatherItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(20)
           ),
           child: Image.asset(
-            iconUrl,
+            'assets/images/$icon',
             fit: BoxFit.contain,
           ),
         ),
