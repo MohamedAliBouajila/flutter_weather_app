@@ -34,10 +34,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    getWeatherData(location);
+    getWeatherData(location);  
     super.initState();
   }
 
+
+ 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
@@ -51,7 +53,11 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
-
+    
+    setState(() {
+      Helpers.scrollToItem();
+    });
+   
     return Scaffold(
       body: Container(
         width: size.width,
@@ -278,9 +284,9 @@ Container(
                       physics: const BouncingScrollPhysics(),
                       itemCount: weather?.hourlyWeatherForecast.length,
                       controller:Helpers.scrollController,
-                      itemBuilder:(BuildContext context,int index){ 
-                      Helpers.scrollToItem(15);
-                      return HourlyForevastsItem(index: index,weather: weather);
+                      itemBuilder:(BuildContext context,int index){
+
+                          return HourlyForevastsItem(index: index,weather: weather);
                       },
                    )
                      ),  

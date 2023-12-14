@@ -20,8 +20,12 @@ class Helpers {
     return country['shortName'] ?? '';
   }
    static ScrollController scrollController = ScrollController();
-   static void scrollToItem(int index) {
-    double itemExtent = 50.0;
+   static void scrollToItem() {
+    DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('HH');
+    final index = int.parse(formatter.format(now));
+
+    double itemExtent = 80.0;
     double offset = index * itemExtent;
     
     scrollController.animateTo(
