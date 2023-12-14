@@ -269,6 +269,9 @@ Container(
                         ),),
                         GestureDetector(
                           onTap: (){
+                            Navigator.push(context, 
+                            MaterialPageRoute(builder: 
+                          (context)=>const Text('Forecasts')));
                              },
                           child: Text('Forecasts',style: TextStyle(
                             fontSize: 20,
