@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:weather_app/model/weather.dart';
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   ApiService apiService = ApiService();
   final Constants _constants = Constants();
   final TextEditingController _citySearchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   String location = 'Tunisia';
  
@@ -32,19 +34,19 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+
   @override
   void initState() {
     getWeatherData(location);  
     super.initState();
   }
-
-
  
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
 
     Size size = MediaQuery.of(context).size;
+
    
     if (weather == null) {
       return const Scaffold(
@@ -53,11 +55,11 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
-    
-    setState(() {
-      Helpers.scrollToItem();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Helpers.scrollToItem(_scrollController);
     });
-   
+
     return Scaffold(
       body: Container(
         width: size.width,
@@ -250,29 +252,32 @@ Container(
                    ]), 
             ),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               height: size.height * .2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Today',style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold
-                      ),),
-                      GestureDetector(
-                        onTap: (){
-                           },
-                        child: Text('Forecasts',style: TextStyle(
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Today',style: TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: _constants.primaryColor
+                          fontWeight: FontWeight.bold
                         ),),
-                      )
-                    ],
+                        GestureDetector(
+                          onTap: (){
+                             },
+                          child: Text('Forecasts',style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: _constants.primaryColor
+                          ),),
+                        )
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 10,
@@ -283,9 +288,8 @@ Container(
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
                       itemCount: weather?.hourlyWeatherForecast.length,
-                      controller:Helpers.scrollController,
+                      controller: _scrollController,
                       itemBuilder:(BuildContext context,int index){
-
                           return HourlyForevastsItem(index: index,weather: weather);
                       },
                    )
@@ -297,5 +301,11 @@ Container(
       ),
 
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }

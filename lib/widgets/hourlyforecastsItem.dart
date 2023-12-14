@@ -40,7 +40,7 @@ class _HourlyForevastsItemState extends State<HourlyForevastsItem> {
             '0';
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),
-      margin: const EdgeInsets.only(right: 20, bottom: 2),
+      margin: const EdgeInsets.only(right: 10, bottom: 2),
       width: 70,
       decoration: BoxDecoration(
           color: currentTimeHoure == forecastHoure
