@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   ApiService apiService = ApiService();
   final Constants _constants = Constants();
   final TextEditingController _citySearchController = TextEditingController();
-  
+
   String location = 'Tunisia';
  
   Weather? weather;
@@ -277,8 +277,11 @@ Container(
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
                       itemCount: weather?.hourlyWeatherForecast.length,
-                      itemBuilder:(BuildContext context,int index) => HourlyForevastsItem(index: index,weather: weather)
-                      ,
+                      controller:Helpers.scrollController,
+                      itemBuilder:(BuildContext context,int index){ 
+                      Helpers.scrollToItem(15);
+                      return HourlyForevastsItem(index: index,weather: weather);
+                      },
                    )
                      ),  
                 ]

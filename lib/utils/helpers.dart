@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Helpers {
@@ -17,5 +18,16 @@ class Helpers {
       orElse: () => {'shortName': ''},
     );
     return country['shortName'] ?? '';
+  }
+   static ScrollController scrollController = ScrollController();
+   static void scrollToItem(int index) {
+    double itemExtent = 50.0;
+    double offset = index * itemExtent;
+    
+    scrollController.animateTo(
+      offset,
+      duration: Duration(seconds: 1),
+      curve: Curves.easeInOut,
+    );
   }
 }
