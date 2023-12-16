@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:weather_app/model/weather.dart';
+import 'package:weather_app/screens/detailsScreen.dart';
 import 'package:weather_app/services/apiService.dart';
 import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/helpers.dart';
@@ -271,7 +272,7 @@ Container(
                           onTap: (){
                             Navigator.push(context, 
                             MaterialPageRoute(builder: 
-                          (context)=>const Text('Forecasts')));
+                          (context)=>DetailsPage(dailyWeatherForecast: weather!.dailyWeatherForecast,)));
                              },
                           child: Text('Forecasts',style: TextStyle(
                             fontSize: 20,
