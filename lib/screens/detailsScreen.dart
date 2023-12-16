@@ -57,35 +57,60 @@ class _DetailsPageState extends State<DetailsPage> {
           child: Container(
             height: size.height * .60,
             width: size.width,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40)
+            decoration: BoxDecoration(
+              color: _constants.tertiaryColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(50),
+                topRight: Radius.circular(50)
               )
             ),
             child: Stack(clipBehavior: Clip.none,
               children: [
                 Positioned(
-                  top: -30,
-                  left: 25,
-                  right: 25,
-                  child: Container(
-                    height: 250,
-                    width: size.width * .5,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                       borderRadius:BorderRadius.all(
-                          Radius.circular(20)
-                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: const Offset(0, 1),
-                          blurRadius: 5,
-                          color: _constants.primaryColor.withOpacity(.1),
+                  top: -150,
+                  left: 35,
+                  right: 35,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        height: 420,
+                        width: size.width * .5,
+                        decoration: BoxDecoration(
+                          gradient: _constants.linearGradientBlue,
+                           borderRadius:const BorderRadius.all(
+                              Radius.circular(25)
+                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: const Offset(0, 1),
+                              blurRadius: 5,
+                              color: _constants.primaryColor.withOpacity(.5),
+                            ),
+                          ]
                         ),
-                      ]
-                    ),
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),  
+                      Container(
+                        height: 150,
+                        width: size.width * .5,
+                        decoration: BoxDecoration(
+                          gradient: _constants.linearGradientBlue,
+                           borderRadius:const BorderRadius.all(
+                              Radius.circular(25)
+                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: const Offset(0, 1),
+                              blurRadius: 5,
+                              color: _constants.primaryColor.withOpacity(.5),
+                            ),
+                          ]
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 
