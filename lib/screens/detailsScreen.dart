@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:weather_app/model/weather.dart';
 import 'package:weather_app/utils/constants.dart';
+import 'package:weather_app/widgets/dailyForecastsItem.dart';
 
 class DetailsPage extends StatefulWidget {
   final List<dynamic> dailyWeatherForecast;
@@ -11,6 +14,7 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   final Constants _constants = Constants();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +24,12 @@ class _DetailsPageState extends State<DetailsPage> {
 
 
   Map forecastDetails(int index) {
+    
+    var parsedDate =DateTime.parse(dailyWeatherForecast[index]["date"].substring(0,10));
+    var newDate = DateFormat("MMMMEEEEd").format(parsedDate);
+    
     return {
-      "date": dailyWeatherForecast[index]["date"],
+      "date": newDate,
       "maxtemp_c": dailyWeatherForecast[index]["day"]["maxtemp_c"],
       "mintemp_c": dailyWeatherForecast[index]["day"]["mintemp_c"],
       "avgtemp_c": dailyWeatherForecast[index]["day"]["avgtemp_c"],
@@ -73,6 +81,22 @@ class _DetailsPageState extends State<DetailsPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      SizedBox(
+                        height: 110,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: dailyWeatherForecast.length,
+                      controller: _scrollController,
+                      itemBuilder:(BuildContext context,int index){
+                        print(dailyWeatherForecast[index]);
+                          return DailyForecastsItem(index: index, weather: null);
+                      },
+                        ),
+                      ),
+                       const SizedBox(
+                    height: 10,
+                  ),   
                       Container(
                         height: 420,
                         width: size.width * .5,
