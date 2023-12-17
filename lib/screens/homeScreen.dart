@@ -294,7 +294,7 @@ Container(
                       itemCount: weather?.hourlyWeatherForecast.length,
                       controller: _scrollController,
                       itemBuilder:(BuildContext context,int index){
-                          return HourlyForevastsItem(index: index,weather: weather);
+                          return HourlyForecastsItem(index: index,weather: weather);
                       },
                    )
                      ),  

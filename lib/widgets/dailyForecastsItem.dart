@@ -4,19 +4,19 @@ import 'package:weather_app/model/weather.dart';
 import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/helpers.dart';
 
-class HourlyForecastsItem extends StatefulWidget {
+class DailyForecastsItem extends StatefulWidget {
   final Weather? weather;
   final int index;
-  const HourlyForecastsItem(
+  const DailyForecastsItem(
       {Key? key, required this.index, required this.weather})
       : super(key: key);
       
 
   @override
-  State<HourlyForecastsItem> createState() => _HourlyForecastsItemState();
+  State<DailyForecastsItem> createState() => _DailyForecastsItemState();
 }
 
-class _HourlyForecastsItemState extends State<HourlyForecastsItem> {
+class _DailyForecastsItemState extends State<DailyForecastsItem> {
    
   @override
   Widget build(BuildContext context) {
@@ -35,9 +35,6 @@ class _HourlyForecastsItemState extends State<HourlyForecastsItem> {
     String forecastWeatherIcon =
         Helpers.getWeatherIconPath(forecastWeatherCondition);
 
-    String forecastTemperature =
-        widget.weather?.hourlyWeatherForecast[widget.index]["temp_c"].toStringAsFixed(1) ??
-            '0';
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),
       margin: const EdgeInsets.only(right: 10, bottom: 2),
@@ -57,6 +54,10 @@ class _HourlyForecastsItemState extends State<HourlyForecastsItem> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Image.asset(
+            'assets/images/sunny.png',
+            width: 20,
+          ),
           Text(
             forecastTime,
             style: TextStyle(
@@ -64,34 +65,16 @@ class _HourlyForecastsItemState extends State<HourlyForecastsItem> {
               color: _constants.greyColor,
               fontWeight: FontWeight.w500,
             ),
-          ),
-          Image.asset(
-            'assets/images/sunny.png',
-            width: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                forecastTemperature,
-                style: TextStyle(
-                  color: _constants.greyColor,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                'o',
-                style: TextStyle(
-                  color: _constants.greyColor,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 8,
-                ),
-              ),
+          ), 
+          Text(
+            forecastTime,
+            style: TextStyle(
+              fontSize: 17,
+              color: _constants.greyColor,
+              fontWeight: FontWeight.w500,
+            ),
+          ), 
             ],
-          ),
-        ],
       ),
     );
   }
