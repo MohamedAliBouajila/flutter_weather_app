@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:weather_app/model/weather.dart';
+import 'package:weather_app/model/dayforecast.dart';
 import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/helpers.dart';
 
 class DailyForecastsItem extends StatefulWidget {
-  final Weather? weather;
+  final DayForecast? weather;
   final int index;
   const DailyForecastsItem(
       {Key? key, required this.index, required this.weather})
@@ -22,28 +22,21 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
   Widget build(BuildContext context) {
     
     final Constants _constants = Constants();
-    String currentTimeHoure = DateFormat('HH').format(DateTime.now());
 
-    String forecastTime =
-        widget.weather?.hourlyWeatherForecast[widget.index]["time"].substring(11, 16);
+    String currentDate = DateFormat('d').format(DateTime.now());
+    String formattedDate = DateFormat('ddMMM, EEEE').format(widget.weather!.date);
+    String day = formattedDate.substring(6,10);
 
-    String forecastHoure = forecastTime.substring(0, 2);
-
-    String forecastWeatherCondition =
-        widget.weather?.hourlyWeatherForecast[widget.index]["condition"]["text"];
-
-    String forecastWeatherIcon =
-        Helpers.getWeatherIconPath(forecastWeatherCondition);
-
+    bool isToday = currentDate == formattedDate.substring(0,2);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),
-      margin: const EdgeInsets.only(right: 10, bottom: 2),
-      width: 70,
+      margin: const EdgeInsets.only(right: 12),
+      width: 60,
       decoration: BoxDecoration(
-          color: currentTimeHoure == forecastHoure
-              ? _constants.primaryColor
-              : _constants.primaryColor.withOpacity(.6),
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          color: isToday
+              ? _constants.tertiaryColor
+              : Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(50)),
           boxShadow: [
             BoxShadow(
               offset: const Offset(0, 1),
@@ -59,18 +52,18 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
             width: 20,
           ),
           Text(
-            forecastTime,
+            widget.weather!.date.toString().substring(8, 10),
             style: TextStyle(
-              fontSize: 17,
-              color: _constants.greyColor,
-              fontWeight: FontWeight.w500,
+              fontSize: 25,
+              color: isToday? _constants.greyColor:_constants.tertiaryColor,
+              fontWeight: FontWeight.bold,
             ),
           ), 
           Text(
-            forecastTime,
+             day,
             style: TextStyle(
               fontSize: 17,
-              color: _constants.greyColor,
+              color: isToday? _constants.greyColor:_constants.tertiaryColor,
               fontWeight: FontWeight.w500,
             ),
           ), 

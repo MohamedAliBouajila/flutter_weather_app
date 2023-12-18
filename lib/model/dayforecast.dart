@@ -1,6 +1,3 @@
-import 'package:weather_app/utils/countries.dart';
-import 'package:weather_app/utils/helpers.dart';
-
 class DayForecast {
   DateTime date;
   String weatherIcon;
@@ -31,10 +28,10 @@ class DayForecast {
 
   factory DayForecast.fromJson(Map<String, dynamic> json) {
 
-    String weatherIconPath = '${(json["current"]["condition"]["text"])?.toString().replaceAll(' ', '').toLowerCase() ?? ''}.png';
+    String weatherIconPath = '${(json["day"]["condition"]["text"])?.toString().replaceAll(' ', '').toLowerCase() ?? ''}.png';
    
     return DayForecast(
-      date: json["date"],
+      date: DateTime.parse(json["date"]),
       weatherIcon: weatherIconPath,
       minTemperature: json["day"]["mintemp_c"],
       maxTemperature: json["day"]["maxtemp_c"],

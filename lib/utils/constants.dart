@@ -24,4 +24,6 @@ class Constants {
       colors: [Color(0xff51087E), Color(0xff6C0BA9)],
       stops: [0.0,1.0]
   );
+
+  
 }
