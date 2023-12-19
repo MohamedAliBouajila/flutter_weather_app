@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/model/dayforecast.dart';
 import 'package:weather_app/screens/homeScreen.dart';
 import 'package:weather_app/utils/constants.dart';
+import 'package:weather_app/utils/helpers.dart';
 import 'package:weather_app/widgets/dailyForecastsItem.dart';
 import 'package:weather_app/widgets/hourlyforecastsItem.dart';
 import 'package:weather_app/widgets/weatherItem.dart';
@@ -22,19 +24,22 @@ class _DetailsPageState extends State<DetailsPage> {
   final ScrollController _scrollController = ScrollController();
   DayForecast? tomorrowForecast;
   DayForecast? dayForcecast;
+  DateTime startDay = DateTime.now();
+  DateTime? endDay;
   DateTime dayData = DateTime.now();
 
   @override
   void initState() {
+    endDay =  DateTime.parse(widget.dailyWeatherForecast.last['date']);
     dayForcecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
-      (map) => map['date'] == DateFormat('yyyy-MM-dd').format(dayData),
-      orElse: () => null,
+      (map) => map['date'] == DateFormat('yyyy-MM-dd').format(startDay),
+      orElse: () => [],
     ));
     tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
       (map) =>
           map['date'] ==
-          DateFormat('yyyy-MM-dd').format(dayData.add(const Duration(days: 1))),
-      orElse: () => null,
+          DateFormat('yyyy-MM-dd').format(startDay.add(const Duration(days: 1))),
+      orElse: () => [],
     ));
     super.initState();
   }
@@ -71,6 +76,14 @@ class _DetailsPageState extends State<DetailsPage> {
         value: '${dayForcecast?.totalSnowCM ?? 0}',
       ),
     ];
+     WidgetsBinding.instance.addPostFrameCallback((_) {
+      startDay==dayData ? Helpers.scrollToItem(_scrollController) : _scrollController.animateTo(
+      0,
+      duration:const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+    });
+
 
     return Scaffold(
         backgroundColor: _constants.primaryColor,
@@ -100,13 +113,25 @@ class _DetailsPageState extends State<DetailsPage> {
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   itemCount: dailyWeatherForecast.length,
-                  controller: _scrollController,
                   itemBuilder: (BuildContext context, int index) {
-                    return DailyForecastsItem(
+                    return 
+                   GestureDetector(
+                    onTap: (){
+        
+                      setState(() {
+
+                        dayData =  index < 7?dayData.add(const Duration(days: 1)):dayData;
+                        dayForcecast = DayForecast.fromJson(dailyWeatherForecast[index]);
+
+                        tomorrowForecast  = index < 7? DayForecast.fromJson(dailyWeatherForecast[index+1]):null;
+                      });
+                    },  
+                    child: DailyForecastsItem(
                         day:DateFormat('dd').format(dayData),
                         index: index,
                         weather:
-                            DayForecast.fromJson(dailyWeatherForecast[index]));
+                            DayForecast.fromJson(dailyWeatherForecast[index])),
+                   ) ;
                   },
                 ),
               ),
@@ -128,50 +153,113 @@ class _DetailsPageState extends State<DetailsPage> {
                   clipBehavior: Clip.none,
                   children: [
                     Positioned(
-                      top: -120,
+                      top: -140,
                       left: 10,
                       right: 10,
                       child: Container(
-                        height: size.height * .70,
+                        height: size.height * .80,
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: _constants.linearGradientBlue,
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(25),
+                      Container(
+                        padding:const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          gradient: _constants.linearGradientBlue,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: const Offset(0, 1),
+                              blurRadius: 5,
+                              color: _constants.primaryColor.withOpacity(.5),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Positioned(
+                                         left: -35,
+                                          top: -35,
+                                        child: Image.asset(
+                                           'assets/images/sunny.png',
+                                           width: 180,
+                                         ),
+                                      ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                               width: 150,
+                                                height: 150,
+                                            ),
+                                            Text(
+                                              dayForcecast!.currentWeatherCondition,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              DateFormat('ddMMM, EEEE')
+                                                    .format(dayData)
+                                                    .toString()  ==  DateFormat('ddMMM, EEEE')
+                                                    .format(DateTime.now())
+                                                    .toString() ? 
+                                             'Tonight' : 
+                                              DateFormat('ddMMM, EEEE')
+                                                    .format(dayData)
+                                                    .toString(),   
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),            
+                                      Text(
+                                        dayForcecast!.currentWeatherCondition,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 21,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      offset: const Offset(0, 1),
-                                      blurRadius: 5,
-                                      color: _constants.primaryColor
-                                          .withOpacity(.5),
-                                    ),
-                                  ],
-                                ),
-                                child: Container(
-                                  padding: EdgeInsets.zero,
-                                  margin: EdgeInsets.zero,
-                                  child: GridView.builder(
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3,
-                                      crossAxisSpacing: 0.5,
-                                      mainAxisSpacing: 0.5,
-                                    ),
-                                    itemCount: gridItems.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return gridItems[index];
-                                    },
-                                  ),
-                                ),
+                                ],
                               ),
                             ),
+                            SizedBox(
+                              height: 110,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: gridItems.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return gridItems[index];
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      
+                            
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 20),
                               child: SizedBox(
@@ -197,20 +285,22 @@ class _DetailsPageState extends State<DetailsPage> {
                                 setState(() {
                                   dayData = dayData.add(const Duration(days: 1));
                                   dayForcecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
-      (map) => map['date'] == DateFormat('yyyy-MM-dd').format(dayData),
-      orElse: () => null,
-    ));
-    tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
-      (map) =>
-          map['date'] ==
-          DateFormat('yyyy-MM-dd').format(dayData.add(const Duration(days: 1))),
-      orElse: () => null,
-    ));
+                            (map) => map['date'] == DateFormat('yyyy-MM-dd').format(dayData),
+                            orElse: () => null,
+                          ));
+                          tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
+                            (map) =>
+                                map['date'] ==
+                                DateFormat('yyyy-MM-dd').format(dayData.add(const Duration(days: 1))),
+                            orElse: () => null,
+                          ));
+                           
                                 });
+                      
                               },
                               child:
                             Container(
-                              height: 150,
+                              height: 140,
                               padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                               decoration: BoxDecoration(
                                 gradient: _constants.linearGradientBlue,
@@ -226,17 +316,18 @@ class _DetailsPageState extends State<DetailsPage> {
                                   ),
                                 ],
                               ),
-                              child: Stack(
-                               alignment: Alignment.center,
-          clipBehavior: Clip.none,
+                              child: 
+                              dayData == endDay ? const Center(child: Text('No more data')) :
+                              Stack(
+                                alignment: Alignment.center,
+                                clipBehavior: Clip.none,
                                 children: 
                               [  Positioned(
-                                  
-                                      left: -60,
-                                   
+                                      top: -17,
+                                      left: -50,                               
                                       child: Image.asset(
                                         'assets/images/sunny.png',
-                                        width: 180,
+                                        width: 150,
                                       ),
                                     ),
                                 Row(
@@ -244,7 +335,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 100,
                                     ),
                                     Column(
@@ -297,7 +388,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                     ),
                                     IconButton(
                                         onPressed: () {},
-                                        icon: Icon(
+                                        icon:const Icon(
                                           Icons.arrow_forward_ios,
                                           color: Colors.white,
                                         ))
@@ -315,5 +406,10 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
           ],
         ));
+  }
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }
