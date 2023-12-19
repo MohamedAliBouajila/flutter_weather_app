@@ -5,10 +5,10 @@ import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/helpers.dart';
 
 class HourlyForecastsItem extends StatefulWidget {
-  final Weather? weather;
+  final List<dynamic>? weatherPerHour;
   final int index;
   const HourlyForecastsItem(
-      {Key? key, required this.index, required this.weather})
+      {Key? key, required this.index, required this.weatherPerHour})
       : super(key: key);
       
 
@@ -25,18 +25,18 @@ class _HourlyForecastsItemState extends State<HourlyForecastsItem> {
     String currentTimeHoure = DateFormat('HH').format(DateTime.now());
 
     String forecastTime =
-        widget.weather?.hourlyWeatherForecast[widget.index]["time"].substring(11, 16);
+        widget.weatherPerHour?[widget.index]["time"].substring(11, 16)  ?? '0';
 
     String forecastHoure = forecastTime.substring(0, 2);
 
     String forecastWeatherCondition =
-        widget.weather?.hourlyWeatherForecast[widget.index]["condition"]["text"];
+        widget.weatherPerHour?[widget.index]["condition"]["text"] ?? '';
 
     String forecastWeatherIcon =
         Helpers.getWeatherIconPath(forecastWeatherCondition);
 
     String forecastTemperature =
-        widget.weather?.hourlyWeatherForecast[widget.index]["temp_c"].toStringAsFixed(1) ??
+        widget.weatherPerHour?[widget.index]["temp_c"].toStringAsFixed(1) ??
             '0';
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),

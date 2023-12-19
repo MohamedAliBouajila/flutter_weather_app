@@ -6,9 +6,10 @@ import 'package:weather_app/utils/helpers.dart';
 
 class DailyForecastsItem extends StatefulWidget {
   final DayForecast? weather;
+  final String day;
   final int index;
   const DailyForecastsItem(
-      {Key? key, required this.index, required this.weather})
+      {Key? key, required this.index, required this.weather, required this.day})
       : super(key: key);
       
 
@@ -22,16 +23,15 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
   Widget build(BuildContext context) {
     
     final Constants _constants = Constants();
-
-    String currentDate = DateFormat('d').format(DateTime.now());
+    Size size = MediaQuery.of(context).size;
     String formattedDate = DateFormat('ddMMM, EEEE').format(widget.weather!.date);
     String day = formattedDate.substring(6,10);
 
-    bool isToday = currentDate == formattedDate.substring(0,2);
+    bool isToday = widget.day == formattedDate.substring(0,2);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),
       margin: const EdgeInsets.only(right: 12),
-      width: 60,
+      width: size.width * 0.12,
       decoration: BoxDecoration(
           color: isToday
               ? _constants.tertiaryColor
