@@ -29,8 +29,8 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
 
     bool isToday = widget.day == formattedDate.substring(0,2);
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 15),
       margin: const EdgeInsets.only(right: 12),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       width: size.width * 0.12,
       decoration: BoxDecoration(
           color: isToday

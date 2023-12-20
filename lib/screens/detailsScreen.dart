@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/model/dayforecast.dart';
@@ -61,20 +62,16 @@ class _DetailsPageState extends State<DetailsPage> {
         value: '${dayForcecast?.avgHumidity ?? 0}',
       ),
       WeatherItem(
-        icon: 'cloud.png',
-        unit: 'Okta',
-        value: '${dayForcecast?.totalPrecipMM ?? 0}',
-      ),
+                    icon: 'cloud.png',
+                    unit: 'Okta',
+                    value: '${dayForcecast?.avgVisibility.toString() ?? 0}',
+                  ), 
       WeatherItem(
         icon: 'pressure.png',
         unit: 'mb',
         value: '${dayForcecast?.avgVisibility ?? 0}',
       ),
-      WeatherItem(
-        icon: 'pressure.png',
-        unit: 'mb',
-        value: '${dayForcecast?.totalSnowCM ?? 0}',
-      ),
+     
     ];
      WidgetsBinding.instance.addPostFrameCallback((_) {
       startDay==dayData ? Helpers.scrollToItem(_scrollController) : _scrollController.animateTo(
@@ -142,9 +139,9 @@ class _DetailsPageState extends State<DetailsPage> {
               child: Container(
                 height: size.height * .60,
                 width: size.width,
-                decoration: BoxDecoration(
-                  color: _constants.tertiaryColor,
-                  borderRadius: const BorderRadius.only(
+                decoration:const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(50),
                     topRight: Radius.circular(50),
                   ),
@@ -153,7 +150,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   clipBehavior: Clip.none,
                   children: [
                     Positioned(
-                      top: -140,
+                      top: -130,
                       left: 10,
                       right: 10,
                       child: Container(
@@ -169,13 +166,6 @@ class _DetailsPageState extends State<DetailsPage> {
                           borderRadius: const BorderRadius.all(
                             Radius.circular(25),
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              offset: const Offset(0, 1),
-                              blurRadius: 5,
-                              color: _constants.primaryColor.withOpacity(.5),
-                            ),
-                          ],
                         ),
                         child: Column(
                           children: [
@@ -199,9 +189,68 @@ class _DetailsPageState extends State<DetailsPage> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            SizedBox(
-                                               width: 150,
-                                                height: 150,
+                                            Row(
+                                              children: [
+                                                SizedBox(
+                                                   width: 130,
+                                                    height: 150,
+                                                ),
+                                      Container(
+                                        padding: EdgeInsets.all(10),
+                                        width: 150,
+                                        height: 150,
+                                        child: Stack(
+                                          clipBehavior: Clip.none,
+                                          children: [
+                                            Positioned(
+                                              bottom: 40,
+                                              right: 40,
+                                              child: Text(
+                                                                        '${dayForcecast!.minTemperature.toStringAsFixed(0)}',
+                                                                        style: TextStyle(
+                                              fontSize: 80,
+                                              fontWeight: FontWeight.bold,
+                                              foreground: Paint()..shader = _constants.shader
+                                                                        )),
+                                            ),
+                                            Positioned(
+                                            bottom: 80,
+                                            left: 120,
+                                            child: Text(
+                                          'o',
+                                          style: TextStyle(
+                                            fontSize: 40,
+                                            fontWeight: FontWeight.bold,
+                                            foreground: Paint()..shader = _constants.shader
+                                          ),
+                                        ),),
+                                           Positioned(
+                                            left: 68,
+                                             child: Text(
+                                                                       '/',
+                                                                       style: TextStyle(
+                                              fontSize: 80,
+                                              fontWeight: FontWeight.bold,
+                                              foreground: Paint()..shader = _constants.shader
+                                                                       )),
+                                           ),
+                                            Positioned(
+                                                top: 50,
+                                                left: 60,
+                                                child: Text(
+                                                                          '${dayForcecast!.maxTemperature.toStringAsFixed(0)}',
+                                                                          style: TextStyle(
+                                                fontSize: 80,
+                                                fontWeight: FontWeight.bold,
+                                                foreground: Paint()..shader = _constants.shader
+                                                                          )),
+                                              ), 
+                                          
+                                          ]  
+                                        ),
+                                      ),
+                 
+                                              ],
                                             ),
                                             Text(
                                               dayForcecast!.currentWeatherCondition,
@@ -230,14 +279,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                           ],
                                         ),
                                       ),            
-                                      Text(
-                                        dayForcecast!.currentWeatherCondition,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
+                                      
                                     ],
                                   ),
                                 ],
@@ -248,7 +290,7 @@ class _DetailsPageState extends State<DetailsPage> {
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
+                                physics: const BouncingScrollPhysics(),
                                 itemCount: gridItems.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return gridItems[index];
@@ -307,14 +349,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(25),
                                 ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(0, 1),
-                                    blurRadius: 5,
-                                    color:
-                                        _constants.primaryColor.withOpacity(.5),
-                                  ),
-                                ],
+                               
                               ),
                               child: 
                               dayData == endDay ? const Center(child: Text('No more data')) :
@@ -322,7 +357,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                 alignment: Alignment.center,
                                 clipBehavior: Clip.none,
                                 children: 
-                              [  Positioned(
+                              [  
+                                Positioned(
                                       top: -17,
                                       left: -50,                               
                                       child: Image.asset(
@@ -331,8 +367,6 @@ class _DetailsPageState extends State<DetailsPage> {
                                       ),
                                     ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     const SizedBox(
@@ -347,6 +381,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                           tomorrowForecast!
                                               .currentWeatherCondition,
                                           style: const TextStyle(
+                                      
                                             color: Colors.white,
                                             fontSize: 21,
                                             fontWeight: FontWeight.w500,
@@ -386,14 +421,17 @@ class _DetailsPageState extends State<DetailsPage> {
                                         ),
                                       ],
                                     ),
-                                    IconButton(
+                                    
+                                  ],
+                                ),
+                                Positioned(
+                                  right: 0,
+                                  child: IconButton(
                                         onPressed: () {},
                                         icon:const Icon(
                                           Icons.arrow_forward_ios,
                                           color: Colors.white,
-                                        ))
-                                  ],
-                                ),
+                                        )))
                            ]   ),
                             ),
                         )],

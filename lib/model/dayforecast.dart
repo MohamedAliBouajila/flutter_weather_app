@@ -4,7 +4,7 @@ class DayForecast {
   double minTemperature;
   double maxTemperature;
   double maxWindSpeed;
-  int avgHumidity;
+  double avgHumidity;
   double totalPrecipMM;
   double totalSnowCM;
   double avgVisibility;
