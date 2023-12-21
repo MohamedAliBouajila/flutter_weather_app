@@ -4,9 +4,9 @@ class DayForecast {
   double minTemperature;
   double maxTemperature;
   double maxWindSpeed;
-  double avgHumidity;
-  double totalPrecipMM;
-  double totalSnowCM;
+  int avgHumidity;
+  int totalPrecipMM;
+  int totalSnowCM;
   double avgVisibility;
   List<dynamic> hourlyWeatherForecast;
   String currentWeatherCondition;
@@ -36,9 +36,9 @@ class DayForecast {
       minTemperature: json["day"]["mintemp_c"],
       maxTemperature: json["day"]["maxtemp_c"],
       maxWindSpeed: json["day"]["maxwind_kph"],
-      avgHumidity: json["day"]["avghumidity"],
-      totalPrecipMM: json["day"]["totalprecip_mm"],
-      totalSnowCM: json["day"]["totalsnow_cm"],
+      avgHumidity: json["day"]["avghumidity"].toInt(),
+      totalPrecipMM: json["day"]["totalprecip_mm"].toInt(),
+      totalSnowCM: json["day"]["totalsnow_cm"].toInt(),
       avgVisibility: json["day"]["avgvis_km"],
       hourlyWeatherForecast: json["hour"],
       currentWeatherCondition: json["day"]["condition"]["text"],

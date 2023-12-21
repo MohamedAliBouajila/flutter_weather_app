@@ -6,6 +6,7 @@ import 'package:weather_app/utils/helpers.dart';
 import 'package:weather_app/widgets/dailyForecastsItem.dart';
 import 'package:weather_app/widgets/hourlyforecastsItem.dart';
 import 'package:weather_app/widgets/weatherItem.dart';
+import 'dart:math' as math;
 
 class DetailsPage extends StatefulWidget {
   final List<dynamic> dailyWeatherForecast;
@@ -60,9 +61,9 @@ class _DetailsPageState extends State<DetailsPage> {
         fontsize: 15,
       ),
       WeatherItem(
-                    icon: 'cloud.png',
-                    unit: 'Okta',
-                    value: '${dayForcecast?.avgVisibility.toString() ?? 0}',
+                    icon: 'snow.png',
+                    unit: 'cm',
+                    value: '${dayForcecast?.totalSnowCM ?? 0}',
                     fontsize: 15,
                   ), 
       WeatherItem(
@@ -73,13 +74,14 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
      
     ];
-     WidgetsBinding.instance.addPostFrameCallback((_) {
-      startDay==dayData ? Helpers.scrollToItem(_scrollController) : _scrollController.animateTo(
+   WidgetsBinding.instance.addPostFrameCallback((_) {
+      startDay.day == dayData.day ? Helpers.scrollToItem(_scrollController) : _scrollController.animateTo(
       0,
       duration:const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
     });
+   
 
 
     return Scaffold(
@@ -193,88 +195,132 @@ class _DetailsPageState extends State<DetailsPage> {
                                               children: [
                                              const   SizedBox(
                                                    width: 130,
-                                                    height: 150,
+                                                    height: 130,
                                                 ),
-                                      Container(
-                                        padding:const EdgeInsets.all(10),
-                                        width: 150,
-                                        height: 150,
-                                        child: Stack(
-                                          clipBehavior: Clip.none,
-                                          children: [
-                                            Positioned(
-                                              bottom: 40,
-                                              right: 40,
-                                              child: Text(
-                                                                        dayForcecast!.minTemperature.toStringAsFixed(0),
-                                                                        style: TextStyle(
-                                              fontSize: 80,
-                                              fontWeight: FontWeight.bold,
-                                              foreground: Paint()..shader = _constants.shader
-                                                                        )),
-                                            ),
-                                            Positioned(
-                                            bottom: 80,
-                                            left: 120,
-                                            child: Text(
-                                          'o',
-                                          style: TextStyle(
-                                            fontSize: 40,
-                                            fontWeight: FontWeight.bold,
-                                            foreground: Paint()..shader = _constants.shader
+                                        SizedBox(
+                                          width: 150,
+                                                    height: 135,
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                           clipBehavior: Clip.none,
+                                            children: [
+                                                Positioned(
+                                         left: 30,
+                                          top: 75,
+                                        child: Container(
+                                          width: 90,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withOpacity(.5),
+                                            borderRadius: BorderRadius.circular(20)
                                           ),
-                                        ),),
-                                           Positioned(
-                                            left: 68,
-                                             child: Text(
-                                                                       '/',
-                                                                       style: TextStyle(
-                                              fontSize: 80,
-                                              fontWeight: FontWeight.bold,
-                                              foreground: Paint()..shader = _constants.shader
-                                                                       )),
-                                           ),
-                                            Positioned(
-                                                top: 50,
-                                                left: 60,
-                                                child: Text(
-                                                                          dayForcecast!.maxTemperature.toStringAsFixed(0),
-                                                                          style: TextStyle(
-                                                fontSize: 80,
-                                                fontWeight: FontWeight.bold,
-                                                foreground: Paint()..shader = _constants.shader
-                                                                          )),
-                                              ), 
-                                          
-                                          ]  
                                         ),
                                       ),
+                                              Positioned(
+                                                top: -18,
+                                                child: Column(                                     
+                                                  children: [
+                                                        
+                                                                                    Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        dayForcecast!.maxTemperature.toStringAsFixed(0),
+                                                                        style: TextStyle(
+                                                                          fontSize: 70,
+                                                                          fontWeight: FontWeight.bold,
+                                                                          foreground: Paint()..shader = _constants.shader
+                                                                        ),
+                                                                      ),
+                                                                      Text(
+                                                                          'o',
+                                                                          style: TextStyle(
+                                                                            fontSize: 25,
+                                                                            fontWeight: FontWeight.bold,
+                                                                            foreground: Paint()..shader = _constants.shader
+                                                                          ),
+                                                                        ),
+                                                                      
+                                                                    ],
+                                                                  ),
+                                                                     Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        dayForcecast!.minTemperature.toStringAsFixed(0),
+                                                                        style: TextStyle(
+                                                                          fontSize: 70,
+                                                                          fontWeight: FontWeight.bold,
+                                                                          foreground: Paint()..shader = _constants.shader
+                                                                        ),
+                                                                      ),
+                                                                      Text(
+                                                                          'o',
+                                                                          style: TextStyle(
+                                                                            fontSize: 25,
+                                                                            fontWeight: FontWeight.bold,
+                                                                            foreground: Paint()..shader = _constants.shader
+                                                                          ),
+                                                                        ),
+                                                                    
+                                                                    ],
+                                                                  ),
+                                                                    Text(dayForcecast?.totalPrecipMM.toStringAsFixed(0) == '0' ? '' : 'Total Precipitation : ${dayForcecast?.totalPrecipMM.toStringAsFixed(0)} CM',
+                                                                        style: TextStyle(
+                                                                          fontSize: 15,
+                                                                          fontWeight: FontWeight.bold,
+                                                                          foreground: Paint()..shader = _constants.shader
+                                                                        ),
+                                                                      ),
+                                                  ],
+                                                
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )   
+                                 
                  
                                               ],
                                             ),
-                                            Text(
-                                              dayForcecast!.currentWeatherCondition,
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w500,
-                                              
-                                              ),
-                                            ),
-                                            Text(
-                                              DateFormat('ddMMM, EEEE')
-                                                    .format(dayData)
-                                                    .toString()  ==  DateFormat('ddMMM, EEEE')
-                                                    .format(DateTime.now())
-                                                    .toString() ? 
-                                             'Tonight' : 
-                                              DateFormat('ddMMM, EEEE')
-                                                    .format(dayData)
-                                                    .toString(),   
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400,
+                                           
+                                            SizedBox(
+                                              width: 150,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    dayForcecast!.currentWeatherCondition,
+                                                  overflow: TextOverflow.ellipsis, 
+                                                    maxLines: 2, 
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 17,
+                                                      fontWeight: FontWeight.w500,
+                                                                     
+                                                    
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    DateFormat('ddMMM, EEEE')
+                                                          .format(dayData)
+                                                          .toString()  ==  DateFormat('ddMMM, EEEE')
+                                                          .format(DateTime.now())
+                                                          .toString() ? 
+                                                   'Tonight' : 
+                                                    DateFormat('ddMMM, EEEE')
+                                                          .format(dayData)
+                                                          .toString(),   
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ],
