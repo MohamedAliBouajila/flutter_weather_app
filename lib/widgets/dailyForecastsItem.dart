@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/model/dayforecast.dart';
 import 'package:weather_app/utils/constants.dart';
-import 'package:weather_app/utils/helpers.dart';
+
 
 class DailyForecastsItem extends StatefulWidget {
   final DayForecast? weather;

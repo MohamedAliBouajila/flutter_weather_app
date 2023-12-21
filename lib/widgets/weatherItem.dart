@@ -5,12 +5,14 @@ class WeatherItem extends StatelessWidget {
   final String value;
   final String unit;
   final String icon;
+  final double fontsize;
 
   const WeatherItem({
     Key? key,
     required this.icon,
     required this.unit,
     required this.value,
+    this.fontsize = 18,
   }) : super(key: key);
 
   @override
@@ -34,9 +36,9 @@ class WeatherItem extends StatelessWidget {
         const SizedBox(height: 8,),
         Text(
           '$value $unit',
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white70,
-            fontSize: 18,
+            fontSize: fontsize,
             fontWeight: FontWeight.bold
           ),
         )

@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/model/dayforecast.dart';
-import 'package:weather_app/screens/homeScreen.dart';
 import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/helpers.dart';
 import 'package:weather_app/widgets/dailyForecastsItem.dart';
@@ -55,21 +51,25 @@ class _DetailsPageState extends State<DetailsPage> {
         icon: 'wind.png',
         unit: 'km/h',
         value: '${dayForcecast?.maxWindSpeed ?? 0}',
+        fontsize: 15,
       ),
       WeatherItem(
         icon: 'humidity.png',
         unit: '%',
         value: '${dayForcecast?.avgHumidity ?? 0}',
+        fontsize: 15,
       ),
       WeatherItem(
                     icon: 'cloud.png',
                     unit: 'Okta',
                     value: '${dayForcecast?.avgVisibility.toString() ?? 0}',
+                    fontsize: 15,
                   ), 
       WeatherItem(
-        icon: 'pressure.png',
-        unit: 'mb',
+        icon: 'visibility.png',
+        unit: 'Km',
         value: '${dayForcecast?.avgVisibility ?? 0}',
+        fontsize: 15,
       ),
      
     ];
@@ -191,12 +191,12 @@ class _DetailsPageState extends State<DetailsPage> {
                                           children: [
                                             Row(
                                               children: [
-                                                SizedBox(
+                                             const   SizedBox(
                                                    width: 130,
                                                     height: 150,
                                                 ),
                                       Container(
-                                        padding: EdgeInsets.all(10),
+                                        padding:const EdgeInsets.all(10),
                                         width: 150,
                                         height: 150,
                                         child: Stack(
@@ -206,7 +206,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                               bottom: 40,
                                               right: 40,
                                               child: Text(
-                                                                        '${dayForcecast!.minTemperature.toStringAsFixed(0)}',
+                                                                        dayForcecast!.minTemperature.toStringAsFixed(0),
                                                                         style: TextStyle(
                                               fontSize: 80,
                                               fontWeight: FontWeight.bold,
@@ -238,7 +238,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                                 top: 50,
                                                 left: 60,
                                                 child: Text(
-                                                                          '${dayForcecast!.maxTemperature.toStringAsFixed(0)}',
+                                                                          dayForcecast!.maxTemperature.toStringAsFixed(0),
                                                                           style: TextStyle(
                                                 fontSize: 80,
                                                 fontWeight: FontWeight.bold,
@@ -256,8 +256,9 @@ class _DetailsPageState extends State<DetailsPage> {
                                               dayForcecast!.currentWeatherCondition,
                                               style: const TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w500,
+                                              
                                               ),
                                             ),
                                             Text(
@@ -272,8 +273,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                                     .toString(),   
                                               style: const TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
                                               ),
                                             ),
                                           ],
@@ -293,7 +294,9 @@ class _DetailsPageState extends State<DetailsPage> {
                                 physics: const BouncingScrollPhysics(),
                                 itemCount: gridItems.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return gridItems[index];
+                                  return Container(
+                                    padding: const EdgeInsets.all(3),
+                                    child: gridItems[index]);
                                 },
                               ),
                             ),
