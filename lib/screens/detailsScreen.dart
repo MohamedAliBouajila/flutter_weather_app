@@ -72,7 +72,6 @@ class _DetailsPageState extends State<DetailsPage> {
         value: '${dayForcecast?.avgVisibility ?? 0}',
         fontsize: 15,
       ),
-     
     ];
    WidgetsBinding.instance.addPostFrameCallback((_) {
       startDay.day == dayData.day ? Helpers.scrollToItem(_scrollController) : _scrollController.animateTo(
@@ -116,14 +115,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     return 
                    GestureDetector(
                     onTap: (){
-        
-                      setState(() {
-
-                        dayData =  index < 7?dayData.add(const Duration(days: 1)):dayData;
-                        dayForcecast = DayForecast.fromJson(dailyWeatherForecast[index]);
-
-                        tomorrowForecast  = index < 7? DayForecast.fromJson(dailyWeatherForecast[index+1]):null;
-                      });
+                        
                     },  
                     child: DailyForecastsItem(
                         day:DateFormat('dd').format(dayData),
@@ -206,7 +198,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                             children: [
                                                 Positioned(
                                          left: 30,
-                                          top: 75,
+                                          top: 90,
                                         child: Container(
                                           width: 90,
                                           height: 10,
@@ -217,7 +209,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                         ),
                                       ),
                                               Positioned(
-                                                top: -18,
+                                                top: -10,
                                                 child: Column(                                     
                                                   children: [
                                                         
@@ -228,7 +220,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                                                       Text(
                                                                         dayForcecast!.maxTemperature.toStringAsFixed(0),
                                                                         style: TextStyle(
-                                                                          fontSize: 70,
+                                                                          fontSize: 80,
                                                                           fontWeight: FontWeight.bold,
                                                                           foreground: Paint()..shader = _constants.shader
                                                                         ),
@@ -251,7 +243,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                                                       Text(
                                                                         dayForcecast!.minTemperature.toStringAsFixed(0),
                                                                         style: TextStyle(
-                                                                          fontSize: 70,
+                                                                          fontSize: 60,
                                                                           fontWeight: FontWeight.bold,
                                                                           foreground: Paint()..shader = _constants.shader
                                                                         ),
@@ -401,7 +393,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                
                               ),
                               child: 
-                              dayData == endDay ? const Center(child: Text('No more data')) :
+                              dayData.day == endDay?.day ? const Center(child: Text('No more data')) :
                               Stack(
                                 alignment: Alignment.center,
                                 clipBehavior: Clip.none,

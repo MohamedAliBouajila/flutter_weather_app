@@ -11,8 +11,6 @@ class DailyForecastsItem extends StatefulWidget {
   const DailyForecastsItem(
       {Key? key, required this.index, required this.weather, required this.day})
       : super(key: key);
-      
-
   @override
   State<DailyForecastsItem> createState() => _DailyForecastsItemState();
 }
@@ -26,15 +24,15 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
     Size size = MediaQuery.of(context).size;
     String formattedDate = DateFormat('ddMMM, EEEE').format(widget.weather!.date);
     String day = formattedDate.substring(6,10);
-
-    bool isToday = widget.day == formattedDate.substring(0,2);
+    int activeIndex = widget.index;
+    bool isToday = DateTime.now().day.toString() == formattedDate.substring(0,2);
     return Container(
       margin: const EdgeInsets.only(right: 12),
       padding: const EdgeInsets.symmetric(vertical: 12),
       width: size.width * 0.12,
       decoration: BoxDecoration(
-          color: isToday
-              ? _constants.tertiaryColor
+          color: activeIndex == 0
+              ? _constants.tertiaryColor 
               : Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(50)),
           boxShadow: [
