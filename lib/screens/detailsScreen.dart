@@ -6,7 +6,6 @@ import 'package:weather_app/utils/helpers.dart';
 import 'package:weather_app/widgets/dailyForecastsItem.dart';
 import 'package:weather_app/widgets/hourlyforecastsItem.dart';
 import 'package:weather_app/widgets/weatherItem.dart';
-import 'dart:math' as math;
 
 class DetailsPage extends StatefulWidget {
   final List<dynamic> dailyWeatherForecast;
@@ -20,23 +19,21 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   final Constants _constants = Constants();
   final ScrollController _scrollController = ScrollController();
-  DayForecast? tomorrowForecast;
   DayForecast? dayForcecast;
-  DateTime startDay = DateTime.now();
-  DateTime? endDay;
-  DateTime dayData = DateTime.now();
+  DayForecast? tomorrowForecast;
+  int? activeItem;
 
   @override
   void initState() {
-    endDay =  DateTime.parse(widget.dailyWeatherForecast.last['date']);
+    activeItem = 0;
     dayForcecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
-      (map) => map['date'] == DateFormat('yyyy-MM-dd').format(startDay),
+      (map) => map['date'] == DateFormat('yyyy-MM-dd').format(DateTime.now()),
       orElse: () => [],
     ));
     tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
       (map) =>
           map['date'] ==
-          DateFormat('yyyy-MM-dd').format(startDay.add(const Duration(days: 1))),
+          DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1))),
       orElse: () => [],
     ));
     super.initState();
@@ -74,7 +71,7 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
     ];
    WidgetsBinding.instance.addPostFrameCallback((_) {
-      startDay.day == dayData.day ? Helpers.scrollToItem(_scrollController) : _scrollController.animateTo(
+      DateTime.now().day == dayForcecast?.date.day ? Helpers.scrollToItem(_scrollController) : _scrollController.animateTo(
       0,
       duration:const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
@@ -115,10 +112,22 @@ class _DetailsPageState extends State<DetailsPage> {
                     return 
                    GestureDetector(
                     onTap: (){
+                      setState(() {
+                        activeItem = index;
+                        dayForcecast = DayForecast.fromJson(dailyWeatherForecast[index]);
                         
+                        tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
+                          (map) =>
+                              map['date'] ==
+                              DateFormat('yyyy-MM-dd').format(
+                                DateTime.parse(dailyWeatherForecast[index]["date"]).add(const Duration(days: 1))),
+                          orElse: () => [],
+                        ));
+                      });
                     },  
                     child: DailyForecastsItem(
-                        day:DateFormat('dd').format(dayData),
+                      activeItem:activeItem ?? 0,
+                        day:DateFormat('dd').format(DateTime.parse(dailyWeatherForecast[index]['date'])),
                         index: index,
                         weather:
                             DayForecast.fromJson(dailyWeatherForecast[index])),
@@ -296,22 +305,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                                     
                                                     ),
                                                   ),
-                                                  Text(
-                                                    DateFormat('ddMMM, EEEE')
-                                                          .format(dayData)
-                                                          .toString()  ==  DateFormat('ddMMM, EEEE')
-                                                          .format(DateTime.now())
-                                                          .toString() ? 
-                                                   'Tonight' : 
-                                                    DateFormat('ddMMM, EEEE')
-                                                          .format(dayData)
-                                                          .toString(),   
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  ),
+                                                  whatIsNow(),
                                                 ],
                                               ),
                                             ),
@@ -365,21 +359,30 @@ class _DetailsPageState extends State<DetailsPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  dayData = dayData.add(const Duration(days: 1));
-                                  dayForcecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
-                            (map) => map['date'] == DateFormat('yyyy-MM-dd').format(dayData),
-                            orElse: () => null,
-                          ));
-                          tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
-                            (map) =>
-                                map['date'] ==
-                                DateFormat('yyyy-MM-dd').format(dayData.add(const Duration(days: 1))),
-                            orElse: () => null,
-                          ));
                            
+                                setState(() {
+                                  if(tomorrowForecast?.date != null){
+                                  dayForcecast = tomorrowForecast;
+                              tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
+                                (map) =>
+                                    map['date'] ==
+                                    DateFormat('yyyy-MM-dd').format(tomorrowForecast!.date.add(const Duration(days: 1))),
+                                orElse: () => [],
+                              ));
+                                  }else{  
+                                    dayForcecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
+                                    (map) => map['date'] == DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                                    orElse: () => [],
+                                  ));
+                                  tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
+                                    (map) =>
+                                        map['date'] ==
+                                        DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1))),
+                                    orElse: () => [],
+                                  ));
+
+                              }
                                 });
-                      
                               },
                               child:
                             Container(
@@ -393,7 +396,6 @@ class _DetailsPageState extends State<DetailsPage> {
                                
                               ),
                               child: 
-                              dayData.day == endDay?.day ? const Center(child: Text('No more data')) :
                               Stack(
                                 alignment: Alignment.center,
                                 clipBehavior: Clip.none,
@@ -490,5 +492,48 @@ class _DetailsPageState extends State<DetailsPage> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+  
+  Widget whatIsNow() {
+  bool isItToday = DateFormat('ddMMM, EEEE')
+                                                          .format(dayForcecast!.date)
+                                                          .toString()  ==  DateFormat('ddMMM, EEEE')
+                                                          .format(DateTime.now())
+                                                          .toString();
+
+    if( isItToday && DateTime.now().hour > 17){
+
+                                                            return const Text(
+                                                    'Tonight',
+                                                    style:  TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                            );
+                                                          }else if(isItToday && DateTime.now().hour < 17){
+                                                            return const Text(
+                                                    'Today',
+                                                    style:  TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                            );
+                                                          } else {
+                                                              return Text(
+                                                    DateFormat('ddMMM, EEEE')
+                                                          .format(dayForcecast!.date)
+                                                          .toString() ,
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                            );
+                                                          }
+
+      
+
   }
 }

@@ -8,8 +8,9 @@ class DailyForecastsItem extends StatefulWidget {
   final DayForecast? weather;
   final String day;
   final int index;
+  final int activeItem;
   const DailyForecastsItem(
-      {Key? key, required this.index, required this.weather, required this.day})
+      {Key? key, required this.index, required this.weather, required this.day,required this.activeItem})
       : super(key: key);
   @override
   State<DailyForecastsItem> createState() => _DailyForecastsItemState();
@@ -24,14 +25,15 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
     Size size = MediaQuery.of(context).size;
     String formattedDate = DateFormat('ddMMM, EEEE').format(widget.weather!.date);
     String day = formattedDate.substring(6,10);
-    int activeIndex = widget.index;
+
     bool isToday = DateTime.now().day.toString() == formattedDate.substring(0,2);
+    bool isActive = widget.activeItem == widget.index;
     return Container(
       margin: const EdgeInsets.only(right: 12),
       padding: const EdgeInsets.symmetric(vertical: 12),
       width: size.width * 0.12,
       decoration: BoxDecoration(
-          color: activeIndex == 0
+          color: isActive
               ? _constants.tertiaryColor 
               : Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(50)),
@@ -53,7 +55,7 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
             widget.weather!.date.toString().substring(8, 10),
             style: TextStyle(
               fontSize: 25,
-              color: isToday? _constants.greyColor:_constants.tertiaryColor,
+              color: isToday || isActive ? _constants.greyColor:_constants.tertiaryColor,
               fontWeight: FontWeight.bold,
             ),
           ), 
@@ -61,7 +63,7 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
              day,
             style: TextStyle(
               fontSize: 17,
-              color: isToday? _constants.greyColor:_constants.tertiaryColor,
+              color: isToday || isActive? _constants.greyColor:_constants.tertiaryColor,
               fontWeight: FontWeight.w500,
             ),
           ), 
