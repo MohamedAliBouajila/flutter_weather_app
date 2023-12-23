@@ -115,7 +115,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       setState(() {
                         activeItem = index;
                         dayForcecast = DayForecast.fromJson(dailyWeatherForecast[index]);
-                        
+
                         tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
                           (map) =>
                               map['date'] ==
@@ -361,6 +361,7 @@ class _DetailsPageState extends State<DetailsPage> {
                               onTap: () {
                            
                                 setState(() {
+                                  activeItem = activeItem! + 1;
                                   if(tomorrowForecast?.date != null){
                                   dayForcecast = tomorrowForecast;
                               tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
