@@ -21,11 +21,13 @@ class _DetailsPageState extends State<DetailsPage> {
   final ScrollController _scrollController = ScrollController();
   DayForecast? dayForcecast;
   DayForecast? tomorrowForecast;
+  int nbrOfDAys = 0;
   int? activeItem;
 
   @override
   void initState() {
     activeItem = 0;
+    nbrOfDAys = widget.dailyWeatherForecast.length;
     dayForcecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
       (map) => map['date'] == DateFormat('yyyy-MM-dd').format(DateTime.now()),
       orElse: () => [],
@@ -115,15 +117,18 @@ class _DetailsPageState extends State<DetailsPage> {
                       setState(() {
                         activeItem = index;
                         dayForcecast = DayForecast.fromJson(dailyWeatherForecast[index]);
-
-                        tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
+                        if(index != nbrOfDAys - 1){
+                          tomorrowForecast =  DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
                           (map) =>
                               map['date'] ==
                               DateFormat('yyyy-MM-dd').format(
                                 DateTime.parse(dailyWeatherForecast[index]["date"]).add(const Duration(days: 1))),
                           orElse: () => [],
-                        ));
+                        ) ?? []) ;
+                        }
+                       
                       });
+
                     },  
                     child: DailyForecastsItem(
                       activeItem:activeItem ?? 0,
@@ -359,10 +364,11 @@ class _DetailsPageState extends State<DetailsPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                           
                                 setState(() {
                                   activeItem = activeItem! + 1;
-                                  if(tomorrowForecast?.date != null){
+                                  print(activeItem);
+                                  print(nbrOfDAys-1);
+                                  if(activeItem! < nbrOfDAys - 1){
                                   dayForcecast = tomorrowForecast;
                               tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
                                 (map) =>
@@ -370,19 +376,19 @@ class _DetailsPageState extends State<DetailsPage> {
                                     DateFormat('yyyy-MM-dd').format(tomorrowForecast!.date.add(const Duration(days: 1))),
                                 orElse: () => [],
                               ));
-                                  }else{  
+                                  }else{
+                                    activeItem = 0;
                                     dayForcecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
-                                    (map) => map['date'] == DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                                    orElse: () => [],
-                                  ));
-                                  tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
-                                    (map) =>
-                                        map['date'] ==
-                                        DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1))),
-                                    orElse: () => [],
-                                  ));
-
-                              }
+                                      (map) => map['date'] == DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                                      orElse: () => [],
+                                    ));
+                                    tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
+                                      (map) =>
+                                          map['date'] ==
+                                          DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1))),
+                                      orElse: () => [],
+                                    ));
+                                  }
                                 });
                               },
                               child:
