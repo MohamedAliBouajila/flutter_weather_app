@@ -79,6 +79,44 @@ class _DetailsPageState extends State<DetailsPage> {
       curve: Curves.easeInOut,
     );
     });
+
+    
+  void incrementDate() {
+        setState(() {
+                                  activeItem = activeItem! +1;
+                                  if(activeItem! < nbrOfDAys - 1){
+                                  dayForcecast = tomorrowForecast;
+                              tomorrowForecast = DayForecast.fromJson(dailyWeatherForecast.firstWhere(
+                                (map) =>
+                                    map['date'] ==
+                                    DateFormat('yyyy-MM-dd').format(tomorrowForecast!.date.add(const Duration(days: 1))),
+                                orElse: () => [],
+                              ));
+                                  }else if(activeItem == nbrOfDAys - 1){      
+                                    dayForcecast = tomorrowForecast;
+                                    tomorrowForecast = DayForecast.fromJson(dailyWeatherForecast.firstWhere(
+                                      (map) =>
+                                          map['date'] ==
+                                          DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                                      orElse: () => [],
+                                    ));
+                                  }else{    
+                                    activeItem = 0;    
+                                    dayForcecast = DayForecast.fromJson(dailyWeatherForecast.firstWhere(
+                                      (map) => map['date'] == DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                                      orElse: () => [],
+                                    ));
+                                    tomorrowForecast = DayForecast.fromJson(dailyWeatherForecast.firstWhere(
+                                      (map) =>
+                                          map['date'] ==
+                                          DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1))),
+                                      orElse: () => [],
+                                    ));
+                                  }
+    });
+                  
+  }
+
    
 
 
@@ -362,34 +400,10 @@ class _DetailsPageState extends State<DetailsPage> {
                                     },
                                   )),
                             ),
+                   
                             GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  activeItem = activeItem! + 1;
-                                  print(activeItem);
-                                  print(nbrOfDAys-1);
-                                  if(activeItem! < nbrOfDAys - 1){
-                                  dayForcecast = tomorrowForecast;
-                              tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
-                                (map) =>
-                                    map['date'] ==
-                                    DateFormat('yyyy-MM-dd').format(tomorrowForecast!.date.add(const Duration(days: 1))),
-                                orElse: () => [],
-                              ));
-                                  }else{
-                                    activeItem = 0;
-                                    dayForcecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
-                                      (map) => map['date'] == DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                                      orElse: () => [],
-                                    ));
-                                    tomorrowForecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
-                                      (map) =>
-                                          map['date'] ==
-                                          DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1))),
-                                      orElse: () => [],
-                                    ));
-                                  }
-                                });
+                                incrementDate();      
                               },
                               child:
                             Container(
@@ -500,7 +514,7 @@ class _DetailsPageState extends State<DetailsPage> {
     _scrollController.dispose();
     super.dispose();
   }
-  
+
   Widget whatIsNow() {
   bool isItToday = DateFormat('ddMMM, EEEE')
                                                           .format(dayForcecast!.date)
