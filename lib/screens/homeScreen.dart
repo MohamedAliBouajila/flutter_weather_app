@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Padding(padding: const EdgeInsets.only(top: 10),
                       child: Text(
-                        '${weather?.temperature.toString() ?? 0}',
+                        weather!.temperature.toString(),
                         style: TextStyle(
                           fontSize: 80,
                           fontWeight: FontWeight.bold,
@@ -203,13 +203,14 @@ class _HomePageState extends State<HomePage> {
                       
                     ],
                   ),
-                  Text(weather?.currentWeatherCondition ?? " ",style: const TextStyle(
+                  Text( weather!.isDay ? "Today , ${weather!.currentWeatherCondition} ":
+                  "Tonight , ${weather!.currentWeatherCondition} ",style: const TextStyle(
                     color:Colors.white70,
                     fontSize: 20,
                     fontWeight: FontWeight.bold
                   ),),
                    Text(
-                    weather?.currentDate ?? " ",
+                    weather!.currentDate,
                     style: const TextStyle(
                       color: Colors.white70,
                      fontSize: 18,
@@ -228,22 +229,22 @@ Container(
                         WeatherItem(
                     icon: 'wind.png',
                     unit: 'km/h',
-                    value: '${weather?.windSpeed.toString() ?? 0}',
+                    value: weather!.windSpeed.toString(),
                   ), 
                   WeatherItem(
                     icon: 'humidity.png',
                     unit: '%',
-                    value: '${weather?.humidity.toString() ?? 0}',
+                    value: weather!.humidity.toString(),
                   ), 
                   WeatherItem(
                     icon: 'cloud.png',
                     unit: 'Okta',
-                    value: '${weather?.cloud.toString() ?? 0}',
+                    value: weather!.cloud.toString() ,
                   ), 
                   WeatherItem(
                     icon: 'pressure.png',
                     unit: 'mb',
-                    value: '${weather?.cloud.toString() ?? 0}',
+                    value: weather!.cloud.toString(),
                   ),
                       ],
                     ),
@@ -289,10 +290,10 @@ Container(
                       child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
-                      itemCount: weather?.hourlyWeatherForecast.length,
+                      itemCount: weather!.hourlyWeatherForecast.length,
                       controller: _scrollController,
                       itemBuilder:(BuildContext context,int index){
-                          return HourlyForecastsItem(index: index,weatherPerHour: weather?.hourlyWeatherForecast);
+                          return HourlyForecastsItem(index: index,weatherPerHour: weather!.hourlyWeatherForecast);
                       },
                    )
                      ),  

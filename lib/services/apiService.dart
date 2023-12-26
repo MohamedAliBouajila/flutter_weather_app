@@ -32,6 +32,7 @@ class ApiService {
         pressure: 0,
         visibility: 0,
         currentDate: '',
+        isDay: true,
         hourlyWeatherForecast: [],
         dailyWeatherForecast: [],
         currentWeatherCondition: '',

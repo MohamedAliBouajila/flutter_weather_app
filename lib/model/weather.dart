@@ -11,6 +11,7 @@ class Weather {
   double pressure;
   double visibility;
   String currentDate;
+  bool isDay;
   List<dynamic> hourlyWeatherForecast;
   List<dynamic> dailyWeatherForecast;
   String currentWeatherCondition;
@@ -25,6 +26,7 @@ class Weather {
     required this.pressure,
     required this.visibility,
     required this.currentDate,
+    required this.isDay,
     required this.hourlyWeatherForecast,
     required this.dailyWeatherForecast,
     required this.currentWeatherCondition,
@@ -45,6 +47,7 @@ class Weather {
       cloud: json["current"]["cloud"],
       pressure: json["current"]["pressure_mb"],
       visibility: json["current"]["vis_km"],
+      isDay: json["current"]["is_day"] == 1?true:false,
       currentDate: Helpers.getDate(json["location"]["localtime"]),
       hourlyWeatherForecast: json["forecast"]["forecastday"][0]["hour"],
       dailyWeatherForecast: json["forecast"]["forecastday"],

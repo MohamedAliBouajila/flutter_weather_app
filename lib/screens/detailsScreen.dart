@@ -117,9 +117,6 @@ class _DetailsPageState extends State<DetailsPage> {
                   
   }
 
-   
-
-
     return Scaffold(
         backgroundColor: _constants.primaryColor,
         appBar: AppBar(
@@ -348,7 +345,16 @@ class _DetailsPageState extends State<DetailsPage> {
                                                     
                                                     ),
                                                   ),
-                                                  whatIsNow(),
+                                                  Text(
+                                                    DateFormat('ddMMM, EEEE')
+                                                          .format(dayForcecast!.date)
+                                                          .toString() ,
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                            ),
                                                 ],
                                               ),
                                             ),
@@ -513,48 +519,5 @@ class _DetailsPageState extends State<DetailsPage> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
-  }
-
-  Widget whatIsNow() {
-  bool isItToday = DateFormat('ddMMM, EEEE')
-                                                          .format(dayForcecast!.date)
-                                                          .toString()  ==  DateFormat('ddMMM, EEEE')
-                                                          .format(DateTime.now())
-                                                          .toString();
-
-    if( isItToday && DateTime.now().hour > 17){
-
-                                                            return const Text(
-                                                    'Tonight',
-                                                    style:  TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                            );
-                                                          }else if(isItToday && DateTime.now().hour < 17){
-                                                            return const Text(
-                                                    'Today',
-                                                    style:  TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                            );
-                                                          } else {
-                                                              return Text(
-                                                    DateFormat('ddMMM, EEEE')
-                                                          .format(dayForcecast!.date)
-                                                          .toString() ,
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                            );
-                                                          }
-
-      
-
   }
 }
