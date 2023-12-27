@@ -30,7 +30,7 @@ List<Map<String, String>> countries = [
   {'name': 'Tajikistan', 'shortName': 'TJ'},
   {'name': 'Venezuela', 'shortName': 'VE'},
   {'name': 'United States Minor Outlying Islands', 'shortName': 'UM'},
-  {'name': 'Ãland Islands', 'shortName': 'AX'},
+  {'name': 'Ãland Islands', 'shortName': 'AX'},
   {'name': 'Poland', 'shortName': 'PL'},
   {'name': 'Saudi Arabia', 'shortName': 'SA'},
   {'name': 'Republic of the Congo', 'shortName': 'CG'},
