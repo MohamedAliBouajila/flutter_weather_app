@@ -174,7 +174,9 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 160,
                     child: Image.asset(
-                      'assets/images/sunny.png',
+                       weather!.isDay?
+                       'assets/day/${weather?.weatherIcon ?? 'cloud.png'}':
+                       'assets/night/${weather?.weatherIcon ?? 'cloud.png'}',
                       fit: BoxFit.contain,
                     ),
                   ),
