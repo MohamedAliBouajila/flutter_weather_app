@@ -9,14 +9,14 @@ import 'package:weather_app/utils/helpers.dart';
 import 'package:weather_app/widgets/hourlyforecastsItem.dart';
 import 'package:weather_app/widgets/weatherItem.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   ApiService apiService = ApiService();
   final Constants _constants = Constants();
   final TextEditingController _citySearchController = TextEditingController();
@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
 
   String location = 'Tunisia';
  
-  Weather? weather;
+  late Weather weather;
 
   Future<void> getWeatherData(String location) async {
     var data = await apiService.getWeatherData(location.toLowerCase().trim());
@@ -46,14 +46,6 @@ class _HomePageState extends State<HomePage> {
 
     Size size = MediaQuery.of(context).size;
 
-   
-    if (weather == null) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Helpers.scrollToItem(_scrollController);
@@ -174,9 +166,9 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 160,
                     child: Image.asset(
-                       weather!.isDay?
-                       'assets/day/${weather?.weatherIcon ?? 'cloud.png'}':
-                       'assets/night/${weather?.weatherIcon ?? 'cloud.png'}',
+                       weather.isDay == true ?
+                       'assets/day/${weather.weatherIcon ?? 'cloud.png'}':
+                       'assets/night/${weather.weatherIcon ?? 'cloud.png'}',
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -205,14 +197,14 @@ class _HomePageState extends State<HomePage> {
                       
                     ],
                   ),
-                  Text( weather!.isDay ? "Today , ${weather!.currentWeatherCondition} ":
-                  "Tonight , ${weather!.currentWeatherCondition} ",style: const TextStyle(
+                  Text( weather.isDay == true ? "Today , ${weather.currentWeatherCondition} ":
+                  "Tonight , ${weather.currentWeatherCondition} ",style: const TextStyle(
                     color:Colors.white70,
                     fontSize: 20,
                     fontWeight: FontWeight.bold
                   ),),
                    Text(
-                    weather!.currentDate,
+                    weather.currentDate ?? '',
                     style: const TextStyle(
                       color: Colors.white70,
                      fontSize: 18,
@@ -273,7 +265,7 @@ Container(
                           onTap: (){
                             Navigator.push(context, 
                             MaterialPageRoute(builder: 
-                          (context)=>DetailsPage(dailyWeatherForecast: weather!.dailyWeatherForecast,)));
+                          (context)=>DetailsScreen(dailyWeatherForecast: weather.dailyWeatherForecast ?? [],)));
                              },
                           child: Text('Forecasts',style: TextStyle(
                             fontSize: 20,
@@ -292,10 +284,10 @@ Container(
                       child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
-                      itemCount: weather!.hourlyWeatherForecast.length,
+                      itemCount: weather.hourlyWeatherForecast?.length,
                       controller: _scrollController,
                       itemBuilder:(BuildContext context,int index){
-                          return HourlyForecastsItem(index: index,weatherPerHour: weather!.hourlyWeatherForecast);
+                          return HourlyForecastsItem(index: index,weatherPerHour: weather.hourlyWeatherForecast);
                       },
                    )
                      ),  

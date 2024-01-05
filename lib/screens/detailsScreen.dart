@@ -7,16 +7,16 @@ import 'package:weather_app/widgets/dailyForecastsItem.dart';
 import 'package:weather_app/widgets/hourlyforecastsItem.dart';
 import 'package:weather_app/widgets/weatherItem.dart';
 
-class DetailsPage extends StatefulWidget {
+class DetailsScreen extends StatefulWidget {
   final List<dynamic> dailyWeatherForecast;
 
-  const DetailsPage({super.key, required this.dailyWeatherForecast});
+  const DetailsScreen({super.key, required this.dailyWeatherForecast});
 
   @override
-  State<DetailsPage> createState() => _DetailsPageState();
+  State<DetailsScreen> createState() => _DetailsScreenState();
 }
 
-class _DetailsPageState extends State<DetailsPage> {
+class _DetailsScreenState extends State<DetailsScreen> {
   final Constants _constants = Constants();
   final ScrollController _scrollController = ScrollController();
   DayForecast? dayForcecast;

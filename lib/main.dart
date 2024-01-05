@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/screens/homeScreen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:weather_app/screens/splashScreen.dart';
 
 void main() async{
-  await dotenv.load(fileName: ".env");
+  await dotenv.load();
   runApp(const MyApp());
 }
 
@@ -17,7 +18,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(   
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home:const SplashScreen(
+        duration: 5,
+        navigateAfterDuration: HomeScreen(),
+      ),
     );
   }
 }
