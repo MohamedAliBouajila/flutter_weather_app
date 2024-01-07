@@ -22,9 +22,23 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _citySearchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  String location = 'Tunisia';
+  String? location;
  
-  late Weather weather;
+  Weather weather = Weather(
+    locationName: '',
+    weatherIcon: '',
+    temperature: 0,
+    windSpeed: 0,
+    humidity: 0,
+    cloud: 0,
+    pressure: 0,
+    visibility: 0,
+    currentDate: '',
+    isDay: true,
+    hourlyWeatherForecast: [],
+    dailyWeatherForecast: [],
+    currentWeatherCondition: '',
+  );
 
   Future<void> getWeatherData(String location) async {
     var data = await apiService.getWeatherData(location.toLowerCase().trim());
@@ -35,8 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   @override
-  void initState() {
-    getWeatherData(location);  
+  void initState() { 
+    getWeatherData(location ?? 'Tunisia');  
     super.initState();
   }
  
