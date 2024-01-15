@@ -168,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                          ),
                         ));
                       }, icon: const Icon(Icons.location_pin,color: Colors.white,), label: 
-                     Text(weather?.locationName ?? "No Location",style: const TextStyle(
+                     Text(weather.locationName ?? "No Location",style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold
@@ -192,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Padding(padding: const EdgeInsets.only(top: 10),
                       child: Text(
-                        weather!.temperature.toString(),
+                        weather.temperature.toString(),
                         style: TextStyle(
                           fontSize: 80,
                           fontWeight: FontWeight.bold,
@@ -237,22 +237,22 @@ Container(
                         WeatherItem(
                     icon: 'wind.png',
                     unit: 'km/h',
-                    value: weather!.windSpeed.toString(),
+                    value: weather.windSpeed.toString(),
                   ), 
                   WeatherItem(
                     icon: 'humidity.png',
                     unit: '%',
-                    value: weather!.humidity.toString(),
+                    value: weather.humidity.toString(),
                   ), 
                   WeatherItem(
                     icon: 'cloud.png',
                     unit: 'Okta',
-                    value: weather!.cloud.toString() ,
+                    value: weather.cloud.toString() ,
                   ), 
                   WeatherItem(
                     icon: 'pressure.png',
                     unit: 'mb',
-                    value: weather!.cloud.toString(),
+                    value: weather.cloud.toString(),
                   ),
                       ],
                     ),
@@ -279,7 +279,9 @@ Container(
                           onTap: (){
                             Navigator.push(context, 
                             MaterialPageRoute(builder: 
-                          (context)=>DetailsScreen(dailyWeatherForecast: weather.dailyWeatherForecast ?? [],)));
+                          (context)=>DetailsScreen(dailyWeatherForecast: weather.dailyWeatherForecast ?? [], isDay: weather.isDay!,)
+                          
+                          ));
                              },
                           child: Text('Forecasts',style: TextStyle(
                             fontSize: 20,

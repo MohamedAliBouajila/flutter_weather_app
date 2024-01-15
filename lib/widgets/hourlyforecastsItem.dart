@@ -65,7 +65,7 @@ class _HourlyForecastsItemState extends State<HourlyForecastsItem> {
             ),
           ),
           Image.asset(
-            'assets/images/sunny.png',
+            'assets/images/day/$forecastWeatherIcon' ,
             width: 20,
           ),
           Row(

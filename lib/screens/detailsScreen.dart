@@ -9,8 +9,9 @@ import 'package:weather_app/widgets/weatherItem.dart';
 
 class DetailsScreen extends StatefulWidget {
   final List<dynamic> dailyWeatherForecast;
+  final bool isDay;
 
-  const DetailsScreen({super.key, required this.dailyWeatherForecast});
+  const DetailsScreen({Key? key,required this.dailyWeatherForecast, required this.isDay}) : super(key: key);
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -26,7 +27,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   void initState() {
-    activeItem = 0;
+    activeItem = widget.dailyWeatherForecast.indexWhere(
+    (map) => map['date'] == DateFormat('yyyy-MM-dd').format(DateTime.now()),
+    );
     nbrOfDAys = widget.dailyWeatherForecast.length;
     dayForcecast = DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
       (map) => map['date'] == DateFormat('yyyy-MM-dd').format(DateTime.now()),
@@ -72,6 +75,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
         fontsize: 15,
       ),
     ];
+   
    WidgetsBinding.instance.addPostFrameCallback((_) {
       DateTime.now().day == dayForcecast?.date.day ? Helpers.scrollToItem(_scrollController) : _scrollController.animateTo(
       0,
