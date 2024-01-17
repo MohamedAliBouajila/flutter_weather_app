@@ -18,10 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(   
         useMaterial3: true,
       ),
-      home:const SplashScreen(
-        duration: 5,
-        navigateAfterDuration: HomeScreen(),
-      ),
+      home: SplashScreen(),
     );
   }
 }

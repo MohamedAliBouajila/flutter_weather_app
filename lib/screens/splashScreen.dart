@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/model/weather.dart';
@@ -6,33 +5,11 @@ import 'package:weather_app/screens/homeScreen.dart';
 import 'package:weather_app/services/apiService.dart';
 import 'package:weather_app/utils/constants.dart';
 
-class SplashScreen extends StatefulWidget {
-   final int duration;
-   final Widget navigateAfterDuration;
-
-  const SplashScreen({
-    Key? key, 
-    required this.duration,
-    required this.navigateAfterDuration,
-  })  : super(key: key);
-
-  @override
-  SplashScreenState createState() => SplashScreenState();
-}
-
-class SplashScreenState extends State<SplashScreen> {
+class SplashScreen extends StatelessWidget {
   final Constants _constants = Constants();
-  ApiService apiService = ApiService();
-  
-  @override
-  void initState() {
-    super.initState();
-    Timer(Duration(seconds: widget.duration), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => widget.navigateAfterDuration),
-      );
-    });
-  }
+  final ApiService apiService = ApiService();
+
+  SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
