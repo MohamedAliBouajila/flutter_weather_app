@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/model/weather.dart';
 import 'package:weather_app/screens/detailsScreen.dart';
 import 'package:weather_app/services/apiService.dart';
@@ -17,45 +18,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ApiService apiService = ApiService();
   final Constants _constants = Constants();
   final TextEditingController _citySearchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   String? location;
  
-  Weather weather = Weather(
-    locationName: '',
-    weatherIcon: '',
-    temperature: 0,
-    windSpeed: 0,
-    humidity: 0,
-    cloud: 0,
-    pressure: 0,
-    visibility: 0,
-    currentDate: '',
-    isDay: true,
-    hourlyWeatherForecast: [],
-    dailyWeatherForecast: [],
-    currentWeatherCondition: '',
-  );
-
-  Future<void> getWeatherData(String location) async {
-    var data = await apiService.getWeatherData(location.toLowerCase().trim());
-    setState(() {
-      weather = data;
-    });
-  }
-
-
-  @override
-  void initState() { 
-    getWeatherData(location ?? 'Tunisia');  
-    super.initState();
-  }
- 
   @override
   Widget build(BuildContext context) {
+    
+   Weather weather = Provider.of<Weather>(context);
+ 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
 
     Size size = MediaQuery.of(context).size;
@@ -64,6 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Helpers.scrollToItem(_scrollController);
     });
+
+    String weatherIcon =  weather.isDay == true ?
+                       'assets/images/day/${weather.weatherIcon}':
+                       'assets/images/night/${weather.weatherIcon}';
+
+    print(weather.weatherIcon);
 
     return Scaffold(
       body: Container(
@@ -180,9 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 160,
                     child: Image.asset(
-                       weather.isDay == true ?
-                       'assets/day/${weather.weatherIcon ?? 'cloud.png'}':
-                       'assets/night/${weather.weatherIcon ?? 'cloud.png'}',
+                      weatherIcon,
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -279,7 +256,7 @@ Container(
                           onTap: (){
                             Navigator.push(context, 
                             MaterialPageRoute(builder: 
-                          (context)=>DetailsScreen(dailyWeatherForecast: weather.dailyWeatherForecast ?? [], isDay: weather.isDay!,)
+                          (context)=>DetailsScreen(dailyWeatherForecast: weather.dailyWeatherForecast ?? [], isDay: weather.isDay!)
                           
                           ));
                              },

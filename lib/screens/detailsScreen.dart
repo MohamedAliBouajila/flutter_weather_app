@@ -225,7 +225,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                          left: -35,
                                           top: -35,
                                         child: Image.asset(
-                                           'assets/images/sunny.png',
+                                           'assets/images/day/${dayForcecast!.weatherIcon}',
                                            width: 180,
                                          ),
                                       ),
@@ -436,7 +436,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       top: -17,
                                       left: -50,                               
                                       child: Image.asset(
-                                        'assets/images/sunny.png',
+                                        'assets/images/day/${tomorrowForecast!.weatherIcon}',
                                         width: 150,
                                       ),
                                     ),

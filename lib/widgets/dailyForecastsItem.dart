@@ -48,7 +48,7 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset(
-            'assets/images/sunny.png',
+            'assets/images/day/${widget.weather!.weatherIcon}}',
             width: 20,
           ),
           Text(
