@@ -36,44 +36,42 @@ class SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: 
-       FutureBuilder(
-        // Replace fetchData with your actual data fetching function
-        future: apiService.getWeatherData("Tunisia"),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // Data fetched successfully, navigate to home screen
-            return ChangeNotifierProvider(
-              create: (context) => Weather(...$snapshot.data),
-              child: HomeScreen(),
-            );
-          } else if (snapshot.hasError) {
-            // Handle error
-            return Text('Error fetching data');
-          } else {
-            // Still fetching data, show a loading indicator
-            return  Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/logo.png', width: 100, height: 100),
-            const SizedBox(height: 20),
-            const Text('Weather', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
-            const CircularProgressIndicator(color: Colors.white),
-          ],
-        );
-          }
-        },
+    return   Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: _constants.linearGradientBlue,
+        ),
+      child: Scaffold(
+        body: 
+         FutureBuilder(
+          // Replace fetchData with your actual data fetching function
+          future: apiService.getWeatherData("Tunisia"),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              // Data fetched successfully, navigate to home screen
+              return ChangeNotifierProvider(
+                create: (context) => snapshot.data as Weather,
+                child: HomeScreen(),
+              );
+            } else if (snapshot.hasError) {
+              // Handle error
+              return Text('Error fetching data');
+            } else {
+              // Still fetching data, show a loading indicator
+              return  Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset('assets/images/logo.png', width: 100, height: 100),
+              const SizedBox(height: 20),
+              const Text('Weather', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+              const CircularProgressIndicator(color: Colors.white),
+            ],
+          );
+            }
+          },
+        ),
       ),
     );
-    //   Container(
-    //     width: double.infinity,
-    //     decoration: BoxDecoration(
-    //       gradient: _constants.linearGradientBlue,
-    //     ),
-        //child:
-    //   ),
-    // );
   }
 }

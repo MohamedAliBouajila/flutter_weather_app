@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               TextField(
                                 controller: _citySearchController,
                                 onChanged: (searchValue){
-                                  getWeatherData(searchValue);
+                                  // getWeatherData(searchValue);
                                 },
                                 autofocus:true,
                                   decoration: InputDecoration(
