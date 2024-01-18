@@ -170,7 +170,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
                     },  
                     child: DailyForecastsItem(
-                      activeItem:activeItem ?? 0,
+                        activeItem:activeItem ?? 0,
                         day:DateFormat('dd').format(DateTime.parse(dailyWeatherForecast[index]['date'])),
                         index: index,
                         weather:
@@ -404,6 +404,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         (BuildContext context, int index) {
                                       return HourlyForecastsItem(
                                         index: index,
+                                        isFistDay: DateTime.now().day == dayForcecast?.date.day,
                                         weatherPerHour:
                                             dayForcecast?.hourlyWeatherForecast,
                                       );

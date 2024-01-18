@@ -6,8 +6,9 @@ import 'package:weather_app/utils/helpers.dart';
 class HourlyForecastsItem extends StatefulWidget {
   final List<dynamic>? weatherPerHour;
   final int index;
+  final bool isFistDay;
   const HourlyForecastsItem(
-      {Key? key, required this.index, required this.weatherPerHour})
+      {Key? key,this.isFistDay = true, required this.index, required this.weatherPerHour})
       : super(key: key);
       
 
@@ -20,7 +21,7 @@ class _HourlyForecastsItemState extends State<HourlyForecastsItem> {
   @override
   Widget build(BuildContext context) {
     
-    final Constants _constants = Constants();
+    final Constants constants = Constants();
     String currentTimeHoure = DateFormat('HH').format(DateTime.now());
 
     String forecastTime =
@@ -42,15 +43,15 @@ class _HourlyForecastsItemState extends State<HourlyForecastsItem> {
       margin: const EdgeInsets.only(right: 10, bottom: 2),
       width: 70,
       decoration: BoxDecoration(
-          color: currentTimeHoure == forecastHoure
-              ? _constants.primaryColor
-              : _constants.primaryColor.withOpacity(.6),
+          color: currentTimeHoure == forecastHoure && widget.isFistDay
+              ? constants.primaryColor
+              : constants.primaryColor.withOpacity(.6),
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           boxShadow: [
             BoxShadow(
               offset: const Offset(0, 1),
               blurRadius: 5,
-              color: _constants.primaryColor.withOpacity(.1),
+              color: constants.primaryColor.withOpacity(.1),
             ),
           ]),
       child: Column(
@@ -60,7 +61,7 @@ class _HourlyForecastsItemState extends State<HourlyForecastsItem> {
             forecastTime,
             style: TextStyle(
               fontSize: 17,
-              color: _constants.greyColor,
+              color: constants.greyColor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -75,7 +76,7 @@ class _HourlyForecastsItemState extends State<HourlyForecastsItem> {
               Text(
                 forecastTemperature,
                 style: TextStyle(
-                  color: _constants.greyColor,
+                  color: constants.greyColor,
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
                 ),
@@ -83,7 +84,7 @@ class _HourlyForecastsItemState extends State<HourlyForecastsItem> {
               Text(
                 'o',
                 style: TextStyle(
-                  color: _constants.greyColor,
+                  color: constants.greyColor,
                   fontWeight: FontWeight.w600,
                   fontSize: 8,
                 ),

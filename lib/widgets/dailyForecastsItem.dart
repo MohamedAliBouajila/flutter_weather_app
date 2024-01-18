@@ -21,7 +21,7 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
   @override
   Widget build(BuildContext context) {
     
-    final Constants _constants = Constants();
+    final Constants constants = Constants();
     Size size = MediaQuery.of(context).size;
     String formattedDate = DateFormat('ddMMM, EEEE').format(widget.weather!.date);
     String day = formattedDate.substring(6,10);
@@ -34,28 +34,28 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
       width: size.width * 0.12,
       decoration: BoxDecoration(
           color: isActive
-              ? _constants.tertiaryColor 
+              ? constants.tertiaryColor 
               : Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(50)),
           boxShadow: [
             BoxShadow(
               offset: const Offset(0, 1),
               blurRadius: 5,
-              color: _constants.primaryColor.withOpacity(.1),
+              color: constants.primaryColor.withOpacity(.1),
             ),
           ]),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset(
-            'assets/images/day/${widget.weather!.weatherIcon}}',
+            'assets/images/day/${widget.weather!.weatherIcon}',
             width: 20,
           ),
           Text(
             widget.weather!.date.toString().substring(8, 10),
             style: TextStyle(
               fontSize: 25,
-              color: isToday || isActive ? _constants.greyColor:_constants.tertiaryColor,
+              color: isToday || isActive ? constants.greyColor:constants.tertiaryColor,
               fontWeight: FontWeight.bold,
             ),
           ), 
@@ -63,7 +63,7 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
              day,
             style: TextStyle(
               fontSize: 17,
-              color: isToday || isActive? _constants.greyColor:_constants.tertiaryColor,
+              color: isToday || isActive? constants.greyColor:constants.tertiaryColor,
               fontWeight: FontWeight.w500,
             ),
           ), 
