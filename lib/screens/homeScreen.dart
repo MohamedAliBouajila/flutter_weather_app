@@ -42,8 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
                        'assets/images/day/${weather.weatherIcon}':
                        'assets/images/night/${weather.weatherIcon}';
 
-    print(weather.weatherIcon);
-
     return Scaffold(
       body: Container(
         width: size.width,
