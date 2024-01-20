@@ -4,7 +4,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/model/weather.dart';
 import 'package:weather_app/screens/detailsScreen.dart';
-import 'package:weather_app/services/apiService.dart';
 import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/helpers.dart';
 import 'package:weather_app/widgets/hourlyforecastsItem.dart';
@@ -156,11 +155,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 160,
-                    child: Image.asset(
-                      weatherIcon,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                    child: 
+                    Image.asset(
+        weatherIcon,
+
+        fit: BoxFit.contain,
+        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+      return Image.asset(
+        'assets/images/logo.png',
+        fit: BoxFit.contain);
+    },
+      ),),
+                  
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,

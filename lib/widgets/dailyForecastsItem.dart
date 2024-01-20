@@ -48,9 +48,18 @@ class _DailyForecastsItemState extends State<DailyForecastsItem> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset(
-            'assets/images/day/${widget.weather!.weatherIcon}',
-            width: 20,
-          ),
+    'assets/images/day/${widget.weather!.weatherIcon}',
+    width: 20,
+  
+    errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+    
+      return Image.asset(
+        'assets/images/logo.png',
+        width: 20,
+      );
+    },
+  ),
+ 
           Text(
             widget.weather!.date.toString().substring(8, 10),
             style: TextStyle(

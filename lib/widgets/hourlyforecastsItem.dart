@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/helpers.dart';
 
+
 class HourlyForecastsItem extends StatefulWidget {
   final List<dynamic>? weatherPerHour;
   final int index;
@@ -66,9 +67,18 @@ class _HourlyForecastsItemState extends State<HourlyForecastsItem> {
             ),
           ),
           Image.asset(
-            'assets/images/day/$forecastWeatherIcon' ,
-            width: 20,
-          ),
+    'assets/images/day/$forecastWeatherIcon',
+    width: 20,
+    errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+    
+      return Image.asset(
+        'assets/images/logo.png',
+        width: 20,
+
+      );
+    },
+  )
+         ,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

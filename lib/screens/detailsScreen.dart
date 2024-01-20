@@ -134,390 +134,407 @@ class _DetailsScreenState extends State<DetailsScreen> {
           backgroundColor: _constants.primaryColor,
           
         ),
-        body: Stack(
-          alignment: Alignment.center,
-          clipBehavior: Clip.none,
-          children: [
-            Positioned(
-              top: 10,
-              left: 35,
-              right: 35,
-              child: SizedBox(
-                height: 120,
-                width: size.width,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: dailyWeatherForecast.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return 
-                   GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        activeItem = index;
-                        dayForcecast = DayForecast.fromJson(dailyWeatherForecast[index]);
-                        if(index != nbrOfDAys - 1){
-                          tomorrowForecast =  DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
-                          (map) =>
-                              map['date'] ==
-                              DateFormat('yyyy-MM-dd').format(
-                                DateTime.parse(dailyWeatherForecast[index]["date"]).add(const Duration(days: 1))),
-                          orElse: () => [],
-                        ) ?? []) ;
-                        }
-                       
-                      });
-
-                    },  
-                    child: DailyForecastsItem(
-                        activeItem:activeItem ?? 0,
-                        day:DateFormat('dd').format(DateTime.parse(dailyWeatherForecast[index]['date'])),
-                        index: index,
-                        weather:
-                            DayForecast.fromJson(dailyWeatherForecast[index])),
-                   ) ;
-                  },
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              child: Container(
-                height: size.height * .60,
-                width: size.width,
-                decoration:const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50),
+        body: 
+      
+        SingleChildScrollView(
+          child: SizedBox(
+             height: size.height,
+                width: double.infinity, 
+            child: Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  top: 10,
+                  left: 35,
+                  right: 35,
+                  child: SizedBox(
+                    height: 120,
+                    width: size.width,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: dailyWeatherForecast.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return 
+                       GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            activeItem = index;
+                            dayForcecast = DayForecast.fromJson(dailyWeatherForecast[index]);
+                            if(index != nbrOfDAys - 1){
+                              tomorrowForecast =  DayForecast.fromJson(widget.dailyWeatherForecast.firstWhere(
+                              (map) =>
+                                  map['date'] ==
+                                  DateFormat('yyyy-MM-dd').format(
+                                    DateTime.parse(dailyWeatherForecast[index]["date"]).add(const Duration(days: 1))),
+                              orElse: () => [],
+                            ) ?? []) ;
+                            }
+                           
+                          });
+            
+                        },  
+                        child: DailyForecastsItem(
+                            activeItem:activeItem ?? 0,
+                            day:DateFormat('dd').format(DateTime.parse(dailyWeatherForecast[index]['date'])),
+                            index: index,
+                            weather:
+                                DayForecast.fromJson(dailyWeatherForecast[index])),
+                       ) ;
+                      },
+                    ),
                   ),
                 ),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Positioned(
-                      top: -130,
-                      left: 10,
-                      right: 10,
-                      child: Container(
-                        height: size.height * .80,
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                      Container(
-                        padding:const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          gradient: _constants.linearGradientBlue,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(25),
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Stack(
-                                clipBehavior: Clip.none,
-                                children: [
-                                  Positioned(
-                                         left: -35,
-                                          top: -35,
-                                        child: Image.asset(
-                                           'assets/images/day/${dayForcecast!.weatherIcon}',
-                                           width: 180,
-                                         ),
-                                      ),
-                                  Row(
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: Container(
+                    height: size.height * .67,
+                    width: size.width,
+                    decoration:const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50),
+                      ),
+                    ),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                          top: -130,
+                          left: 10,
+                          right: 10,
+                          child: Container(
+                            height: size.height * .80,
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                          Container(
+                            padding:const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              gradient: _constants.linearGradientBlue,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Stack(
+                                    clipBehavior: Clip.none,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                             const   SizedBox(
-                                                   width: 130,
-                                                    height: 130,
-                                                ),
-                                        SizedBox(
-                                          width: 150,
-                                                    height: 135,
-                                          child: Stack(
-                                            alignment: Alignment.center,
-                                           clipBehavior: Clip.none,
-                                            children: [
-                                                Positioned(
-                                         left: 30,
-                                          top: 90,
-                                        child: Container(
-                                          width: 90,
-                                          height: 10,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white.withOpacity(.5),
-                                            borderRadius: BorderRadius.circular(20)
+                                      Positioned(
+                                             left: -35,
+                                              top: -35,
+                                            child: 
+                                             Image.asset(
+              'assets/images/day/${dayForcecast!.weatherIcon}',
+                                               width: 180,
+            
+                errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+            
+                  return Image.asset(
+            'assets/images/logo.png',
+            width: 180,
+                  );
+                },
+              )
                                           ),
-                                        ),
-                                      ),
-                                              Positioned(
-                                                top: -10,
-                                                child: Column(                                     
-                                                  children: [
-                                                        
-                                                                                    Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                    children: [
-                                                                      Text(
-                                                                        dayForcecast!.maxTemperature.toStringAsFixed(0),
-                                                                        style: TextStyle(
-                                                                          fontSize: 80,
-                                                                          fontWeight: FontWeight.bold,
-                                                                          foreground: Paint()..shader = _constants.shader
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                          'o',
-                                                                          style: TextStyle(
-                                                                            fontSize: 25,
-                                                                            fontWeight: FontWeight.bold,
-                                                                            foreground: Paint()..shader = _constants.shader
-                                                                          ),
-                                                                        ),
-                                                                      
-                                                                    ],
-                                                                  ),
-                                                                     Row(
+                                                 Positioned(
+                                          top: 0,
+                                          right: 30,
+                                          child: Column(     
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.end,             
+                                                    children: [
+                                                          
+                                                                                      Row(
                                                                       mainAxisAlignment: MainAxisAlignment.center,
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                    children: [
-                                                                      Text(
-                                                                        dayForcecast!.minTemperature.toStringAsFixed(0),
-                                                                        style: TextStyle(
-                                                                          fontSize: 60,
-                                                                          fontWeight: FontWeight.bold,
-                                                                          foreground: Paint()..shader = _constants.shader
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                          'o',
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        Text(
+                                                                          dayForcecast!.maxTemperature.toStringAsFixed(0),
                                                                           style: TextStyle(
-                                                                            fontSize: 25,
+                                                                            fontSize: 80,
                                                                             fontWeight: FontWeight.bold,
                                                                             foreground: Paint()..shader = _constants.shader
                                                                           ),
                                                                         ),
-                                                                    
-                                                                    ],
-                                                                  ),
-                                                                    Text(dayForcecast?.totalPrecipMM.toStringAsFixed(0) == '0' ? '' : 'Total Precipitation : ${dayForcecast?.totalPrecipMM.toStringAsFixed(0)} CM',
-                                                                        style: TextStyle(
-                                                                          fontSize: 15,
-                                                                          fontWeight: FontWeight.bold,
-                                                                          foreground: Paint()..shader = _constants.shader
+                                                                        Text(
+                                                                            'o',
+                                                                            style: TextStyle(
+                                                                              fontSize: 25,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              foreground: Paint()..shader = _constants.shader
+                                                                            ),
+                                                                          ),
+                                                                        
+                                                                      ],
+                                                                    ),
+                                                                       Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        Text(
+                                                                          dayForcecast!.minTemperature.toStringAsFixed(0),
+                                                                          style: TextStyle(
+                                                                            fontSize: 60,
+                                                                            fontWeight: FontWeight.bold,
+                                                                            foreground: Paint()..shader = _constants.shader
+                                                                          ),
                                                                         ),
-                                                                      ),
-                                                  ],
-                                                
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )   
-                                 
-                 
-                                              ],
-                                            ),
-                                           
-                                            SizedBox(
-                                              width: 150,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                                        Text(
+                                                                            'o',
+                                                                            style: TextStyle(
+                                                                              fontSize: 25,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              foreground: Paint()..shader = _constants.shader
+                                                                            ),
+                                                                          ),
+                                                                      
+                                                                      ],
+                                                                    ),
+                                                                   
+                                                    ],
+                                                  
+                                                  ),),
+                                                                           
+                                                     
+                                      Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
                                                 children: [
-                                                  Text(
-                                                    dayForcecast!.currentWeatherCondition,
-                                                  overflow: TextOverflow.ellipsis, 
-                                                    maxLines: 2, 
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 17,
-                                                      fontWeight: FontWeight.w500,
-                                                                     
-                                                    
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    DateFormat('ddMMM, EEEE')
-                                                          .format(dayForcecast!.date)
-                                                          .toString() ,
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                            ),
+                                                  // weather condition Icon and text with date
+                                               Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                 children: [
+                                                  const SizedBox(
+                                                         width: 130,
+                                                          height: 130,
+                                                      ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment.start,
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 90,
+                                                                child: Text(
+                                                                  dayForcecast!.currentWeatherCondition,
+                                                                overflow: TextOverflow.ellipsis, 
+                                                                  maxLines: 2, 
+                                                                  style: const TextStyle(
+                                                                    color: Colors.white,
+                                                                    fontSize: 17,
+                                                                    fontWeight: FontWeight.w500,      
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                DateFormat('ddMMM, EEEE')
+                                                                      .format(dayForcecast!.date)
+                                                                      .toString() ,
+                                                                        overflow: TextOverflow.ellipsis, 
+                                                                maxLines: 1, 
+                                                                style: const TextStyle(
+                                                                  color: Colors.white,
+                                                                  fontSize: 15,
+                                                                  fontWeight: FontWeight.w400,
+                                                                ),
+                                                                        ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                 ],
+                                               ),
+                                               // weather top and min temperature
+                                        const  SizedBox(
+                                            width: 150,
+                                                      height: 200,
+                                        ),
+                                       
                                                 ],
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),            
-                                      
+                                             
+                                            
+                                            ],
+                                          ),            
+                                          
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 110,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                physics: const BouncingScrollPhysics(),
-                                itemCount: gridItems.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    padding: const EdgeInsets.all(3),
-                                    child: gridItems[index]);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      
-                            
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: SizedBox(
+                                ),
+                                   dayForcecast?.totalPrecipMM.toStringAsFixed(0) == '0' ? const SizedBox.shrink() : Text('Total Precipitation : ${dayForcecast?.totalPrecipMM.toStringAsFixed(0)} CM',
+                                                                            style: TextStyle(
+                                                                              fontSize: 15,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              foreground: Paint()..shader = _constants.shader
+                                                                            ),
+                                                                          ),
+                                SizedBox(
                                   height: 110,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
                                     physics: const BouncingScrollPhysics(),
-                                    itemCount: dayForcecast!
-                                        .hourlyWeatherForecast.length,
-                                    controller: _scrollController,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return HourlyForecastsItem(
-                                        index: index,
-                                        isFistDay: DateTime.now().day == dayForcecast?.date.day,
-                                        weatherPerHour:
-                                            dayForcecast?.hourlyWeatherForecast,
-                                      );
+                                    itemCount: gridItems.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return Container(
+                                        padding: const EdgeInsets.all(3),
+                                        child: gridItems[index]);
                                     },
-                                  )),
-                            ),
-                   
-                            GestureDetector(
-                              onTap: () {
-                                incrementDate();      
-                              },
-                              child:
-                            Container(
-                              height: 140,
-                              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                              decoration: BoxDecoration(
-                                gradient: _constants.linearGradientBlue,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(25),
+                                  ),
                                 ),
-                               
-                              ),
-                              child: 
-                              Stack(
-                                alignment: Alignment.center,
-                                clipBehavior: Clip.none,
-                                children: 
-                              [  
-                                Positioned(
-                                      top: -17,
-                                      left: -50,                               
-                                      child: Image.asset(
-                                        'assets/images/day/${tomorrowForecast!.weatherIcon}',
-                                        width: 150,
-                                      ),
+                              ],
+                            ),
+                          ),
+                          
+                                
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 20),
+                                  child: SizedBox(
+                                      height: 110,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        physics: const BouncingScrollPhysics(),
+                                        itemCount: dayForcecast!
+                                            .hourlyWeatherForecast.length,
+                                        controller: _scrollController,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return HourlyForecastsItem(
+                                            index: index,
+                                            isFistDay: DateTime.now().day == dayForcecast?.date.day,
+                                            weatherPerHour:
+                                                dayForcecast?.hourlyWeatherForecast,
+                                          );
+                                        },
+                                      )),
+                                ),
+                       
+                                GestureDetector(
+                                  onTap: () {
+                                    incrementDate();      
+                                  },
+                                  child:
+                                Container(
+                                  height: 140,
+                                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                  decoration: BoxDecoration(
+                                    gradient: _constants.linearGradientBlue,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(25),
                                     ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const SizedBox(
-                                      width: 100,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                   
+                                  ),
+                                  child: 
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    clipBehavior: Clip.none,
+                                    children: 
+                                  [  
+                                    Positioned(
+                                          top: -17,
+                                          left: -50,                               
+                                          child: 
+                                           Image.asset(
+                 'assets/images/day/${tomorrowForecast!.weatherIcon}',
+                width: 150,
+                errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                  return Image.asset(
+            'assets/images/logo.png',
+            width: 150,
+                  );
+                },
+              )),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          tomorrowForecast!
-                                              .currentWeatherCondition,
-                                          style: const TextStyle(
-                                      
-                                            color: Colors.white,
-                                            fontSize: 21,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                        const SizedBox(
+                                          width: 100,
                                         ),
-                                        Row(
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              DateFormat('ddMMM, ')
-                                                  .format(tomorrowForecast!.date)
-                                                  .toString(),
+                                              tomorrowForecast!
+                                                  .currentWeatherCondition,
                                               style: const TextStyle(
+                                          
                                                 color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
+                                                fontSize: 21,
+                                                fontWeight: FontWeight.w500,
                                               ),
                                             ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  DateFormat('ddMMM, ')
+                                                      .format(tomorrowForecast!.date)
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  DateFormat('EEEE')
+                                                      .format(tomorrowForecast!.date)
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                    color: Colors.white70,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                             Text(
-                                              DateFormat('EEEE')
-                                                  .format(tomorrowForecast!.date)
-                                                  .toString(),
+                                              '${tomorrowForecast!.minTemperature.toString()}/${tomorrowForecast!.maxTemperature.toString()} °',
                                               style: const TextStyle(
-                                                color: Colors.white70,
-                                                fontSize: 18,
+                                                color: Colors.white54,
+                                                fontSize: 19,
                                                 fontWeight: FontWeight.w400,
                                               ),
                                             ),
                                           ],
                                         ),
-                                        Text(
-                                          '${tomorrowForecast!.minTemperature.toString()}/${tomorrowForecast!.maxTemperature.toString()} °',
-                                          style: const TextStyle(
-                                            color: Colors.white54,
-                                            fontSize: 19,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
+                                        
                                       ],
                                     ),
-                                    
-                                  ],
+                                    Positioned(
+                                      right: 0,
+                                      child: IconButton(
+                                            onPressed: () {},
+                                            icon:const Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.white,
+                                            )))
+                               ]   ),
                                 ),
-                                Positioned(
-                                  right: 0,
-                                  child: IconButton(
-                                        onPressed: () {},
-                                        icon:const Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.white,
-                                        )))
-                           ]   ),
+                            )],
                             ),
-                        )],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ));
   }
   @override

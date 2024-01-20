@@ -28,10 +28,19 @@ class WeatherItem extends StatelessWidget {
             color: constants.primaryColor.withOpacity(.3),
             borderRadius: BorderRadius.circular(20)
           ),
-          child: Image.asset(
-            'assets/images/$icon',
+          child: 
+           Image.asset(
+             'assets/images/$icon',
             fit: BoxFit.contain,
-          ),
+    errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+   
+      return Image.asset(
+        'assets/images/logo.png',
+              
+            fit: BoxFit.contain,
+      );
+    },
+  )
         ),
         const SizedBox(height: 8,),
         Text(
