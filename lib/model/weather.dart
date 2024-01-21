@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/utils/countries.dart';
 import 'package:weather_app/utils/helpers.dart';
 
-class Weather with ChangeNotifier{
+class Weather{
   String? locationName;
   String? weatherIcon;
   double? temperature;

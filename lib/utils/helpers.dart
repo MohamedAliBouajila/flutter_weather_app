@@ -20,17 +20,17 @@ class Helpers {
     return country['shortName'] ?? '';
   }
     
-  static void scrollToItem(ScrollController _scrollController) {
+  static void scrollToItem(ScrollController scrollController) {
     DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('HH');
     final index = int.parse(formatter.format(now));
-
+  
     double itemExtent = 80;
     double offset = index * itemExtent;
     
-    _scrollController.animateTo(
+    scrollController.animateTo(
       offset,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       curve: Curves.easeInOut,
     );
   }

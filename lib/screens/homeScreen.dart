@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/model/weather.dart';
+import 'package:weather_app/providers/weather_provider.dart';
 import 'package:weather_app/screens/detailsScreen.dart';
+import 'package:weather_app/services/apiService.dart';
 import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/helpers.dart';
 import 'package:weather_app/widgets/hourlyforecastsItem.dart';
@@ -25,9 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
  
   @override
   Widget build(BuildContext context) {
-    
-   Weather weather = Provider.of<Weather>(context);
- 
+    final ApiService apiService = Provider.of<ApiService>(context, listen: false);
+    Weather weather = Provider.of<WeatherProvider>(context).weather;
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
 
     Size size = MediaQuery.of(context).size;
@@ -91,8 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(height: 10,),
                               TextField(
                                 controller: _citySearchController,
-                                onChanged: (searchValue){
-                                  // getWeatherData(searchValue);
+                                onChanged: (searchValue) async{
+                                    await apiService.getAndUpdateWeatherData(searchValue);
                                 },
                                 autofocus:true,
                                   decoration: InputDecoration(
