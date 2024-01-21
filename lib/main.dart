@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/providers/weather_provider.dart';
-import 'package:weather_app/screens/homeScreen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:weather_app/screens/splashScreen.dart';
-import 'package:weather_app/services/apiService.dart';
+import 'package:weather_app/screens/splash_screen.dart';
+import 'package:weather_app/services/api_service.dart';
 
 
 

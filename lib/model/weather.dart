@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:weather_app/utils/countries.dart';
 import 'package:weather_app/utils/helpers.dart';
 

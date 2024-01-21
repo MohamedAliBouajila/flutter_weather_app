@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:weather_app/model/weather.dart';
-import 'package:weather_app/providers/weather_provider.dart';
-import 'package:weather_app/screens/homeScreen.dart';
-import 'package:weather_app/services/apiService.dart';
+import 'package:weather_app/screens/home_screen.dart';
+import 'package:weather_app/services/api_service.dart';
 import 'package:weather_app/utils/constants.dart';
 
 class SplashScreen extends StatelessWidget {
